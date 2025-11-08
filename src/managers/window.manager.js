@@ -1156,15 +1156,23 @@ class WindowManager {
 
   toggleLLMResponseVisibility() {
     const llmWindow = this.windows.get('llmResponse');
+    const mainWindow = this.windows.get('main');
 
-    if (!llmWindow || llmWindow.isDestroyed()) {
-      logger.warn('LLM response window not available for toggle');
+    if ((!llmWindow || llmWindow.isDestroyed()) && (!mainWindow || mainWindow.isDestroyed())) {
+      logger.warn('LLM response or main window not available for toggle');
       return false;
     }
 
-    if (llmWindow.isVisible()) {
-      llmWindow.hide();
-      logger.info('LLM response window hidden via toggle');
+    const isCurrentlyVisible = (llmWindow && llmWindow.isVisible()) || (mainWindow && mainWindow.isVisible());
+
+    if (isCurrentlyVisible) {
+      if (llmWindow && !llmWindow.isDestroyed()) {
+        llmWindow.hide();
+      }
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        mainWindow.hide();
+      }
+      logger.info('LLM response and main windows hidden via toggle');
       return false;
     }
 
@@ -1173,13 +1181,19 @@ class WindowManager {
       return false;
     }
 
-    this.showOnCurrentDesktop(llmWindow);
+    if (llmWindow && !llmWindow.isDestroyed()) {
+      this.showOnCurrentDesktop(llmWindow);
+    }
 
-    if (this.bindWindows) {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      this.showOnCurrentDesktop(mainWindow);
+    }
+
+    if (this.bindWindows && llmWindow && !llmWindow.isDestroyed()) {
       this.positionBoundWindows();
     }
 
-    logger.info('LLM response window shown via toggle');
+    logger.info('LLM response and main windows shown via toggle');
     return true;
   }
 
