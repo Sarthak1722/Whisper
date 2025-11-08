@@ -40,7 +40,8 @@ class ConfigManager {
 
       llm: {
         gemini: {
-          model: 'gemini-1.5-flash',
+          model: 'gemini-2.5-pro',
+          apiVersion: 'v1beta',
           maxRetries: 3,
           timeout: 30000,
           fallbackEnabled: true,

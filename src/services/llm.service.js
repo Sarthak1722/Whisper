@@ -516,6 +516,24 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
           timestamp: new Date().toISOString(),
           timeout
         });
+
+        try {
+          const latestContent = Array.isArray(geminiRequest?.contents)
+            ? geminiRequest.contents[geminiRequest.contents.length - 1]
+            : null;
+          const messagePreview = latestContent?.parts?.[0]?.text || '';
+
+          logger.debug('Gemini request payload summary', {
+            contentCount: Array.isArray(geminiRequest?.contents) ? geminiRequest.contents.length : 0,
+            hasSystemInstruction: !!geminiRequest?.systemInstruction,
+            messagePreview: messagePreview.substring(0, 200),
+            previewLength: messagePreview.length
+          });
+        } catch (payloadLogError) {
+          logger.warn('Failed to log Gemini request payload summary', {
+            error: payloadLogError.message
+          });
+        }
         
         const requestPromise = this.model.generateContent(geminiRequest);
         const result = await Promise.race([requestPromise, timeoutPromise]);
@@ -561,6 +579,22 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
           suggestedAction: errorInfo.suggestedAction,
           remainingAttempts: maxRetries - attempt
         });
+
+        if (errorInfo.type === 'NETWORK_ERROR' && config.get('llm.gemini.enableFallbackMethod')) {
+          try {
+            logger.warn('Switching to HTTPS transport after network error', {
+              attempt,
+              transport: 'https_direct'
+            });
+            const fallbackResponse = await this.executeAlternativeRequest(geminiRequest);
+            return fallbackResponse;
+          } catch (fallbackError) {
+            logger.error('HTTPS transport attempt failed', {
+              error: fallbackError.message,
+              transport: 'https_direct'
+            });
+          }
+        }
 
         if (attempt === maxRetries) {
           const finalError = new Error(`Gemini API failed after ${maxRetries} attempts: ${error.message}`);
@@ -868,12 +902,25 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
     const https = require('https');
     const apiKey = config.getApiKey('GEMINI');
     const model = config.get('llm.gemini.model');
+    const apiVersion = config.get('llm.gemini.apiVersion') || 'v1beta';
     
-    logger.info('Using alternative HTTPS request method');
+    logger.info('Using alternative HTTPS request method', {
+      model,
+      apiVersion
+    });
     
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
     
-    const postData = JSON.stringify(geminiRequest);
+    let postData;
+    try {
+      const httpPayload = this.transformRequestForHttpTransport(geminiRequest);
+      postData = JSON.stringify(httpPayload);
+    } catch (transformError) {
+      logger.error('Failed to transform Gemini request for HTTPS transport', {
+        error: transformError.message
+      });
+      throw transformError;
+    }
     
     const options = {
       method: 'POST',
@@ -938,6 +985,59 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       req.write(postData);
       req.end();
     });
+  }
+
+  transformRequestForHttpTransport(request) {
+    const normalizePart = (part) => {
+      if (!part) return {};
+      if (typeof part.text === 'string') {
+        return { text: part.text };
+      }
+      if (part.inlineData) {
+        return { inline_data: part.inlineData };
+      }
+      if (part.fileData) {
+        return { file_data: part.fileData };
+      }
+      return part;
+    };
+
+    const payload = {};
+
+    if (request.systemInstruction) {
+      payload.system_instruction = {
+        parts: (request.systemInstruction.parts || []).map(normalizePart)
+      };
+    }
+
+    if (Array.isArray(request.contents)) {
+      payload.contents = request.contents.map((content) => ({
+        role: content.role,
+        parts: (content.parts || []).map(normalizePart)
+      }));
+    }
+
+    if (request.generationConfig) {
+      payload.generation_config = { ...request.generationConfig };
+    }
+
+    if (request.safetySettings) {
+      payload.safety_settings = request.safetySettings;
+    }
+
+    if (request.tools) {
+      payload.tools = request.tools;
+    }
+
+    if (request.toolConfig) {
+      payload.tool_config = request.toolConfig;
+    }
+
+    if (request.cachedContent) {
+      payload.cached_content = request.cachedContent;
+    }
+
+    return payload;
   }
 }
 

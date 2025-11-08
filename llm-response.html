@@ -201,6 +201,88 @@
             height: 60px;
             background: transparent;
         }
+
+        .ocr-preview {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+
+        .ocr-card {
+            width: 100%;
+            max-width: 960px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.45);
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        .ocr-card.error {
+            border-color: rgba(248, 113, 113, 0.65);
+            box-shadow: 0 20px 45px rgba(248, 113, 113, 0.35);
+        }
+
+        .ocr-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .ocr-status {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ocr-card.error .ocr-status {
+            color: #f87171;
+        }
+
+        .ocr-meta {
+            font-size: 0.75rem;
+            color: rgba(229, 231, 235, 0.65);
+        }
+
+        .ocr-body {
+            max-height: 55vh;
+            overflow-y: auto;
+            border-radius: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ocr-text {
+            margin: 0;
+            padding: 1rem;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: #e5e7eb;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .ocr-card.error .ocr-text {
+            color: #fca5a5;
+        }
+
+        .ocr-footer {
+            font-size: 0.75rem;
+            color: rgba(229, 231, 235, 0.7);
+        }
+
+        .ocr-card.error .ocr-footer {
+            color: rgba(248, 113, 113, 0.85);
+        }
         
         .dots-container {
             display: inline-flex;
@@ -323,12 +405,26 @@
         <!-- Loading State -->
         <div id="loading" class="loading">
             <div class="loading-compact">
-                <span class="text-gray-300 text-sm font-medium mr-2">Analyzing</span>
+                <span id="loading-status" class="text-gray-300 text-sm font-medium mr-2">Waiting for screenshot</span>
                 <div class="dots-container">
                     <div class="bouncing-dot"></div>
                     <div class="bouncing-dot"></div>
                     <div class="bouncing-dot"></div>
                 </div>
+            </div>
+        </div>
+
+        <!-- OCR Preview -->
+        <div id="ocr-preview" class="ocr-preview hidden">
+            <div id="ocr-card" class="ocr-card">
+                <div class="ocr-header">
+                    <div id="ocr-status" class="ocr-status">Screenshot captured</div>
+                    <div id="ocr-meta" class="ocr-meta"></div>
+                </div>
+                <div class="ocr-body">
+                    <pre id="ocr-text" class="ocr-text"></pre>
+                </div>
+                <div id="ocr-footer" class="ocr-footer">Sending to Gemini for analysis...</div>
             </div>
         </div>
 
@@ -383,10 +479,12 @@
         if (window.electronAPI) {
             // Set up show-loading event listener
             window.electronAPI.onShowLoading(() => {
+                hideOcrPreview();
                 showLoadingState();
             });
             
             window.electronAPI.onDisplayLlmResponse((event, data) => {
+                hideOcrPreview();
                 const response = data.content || data.response;
             
             // Check if window is still small (compact size) and request expansion
@@ -429,24 +527,44 @@
                 setTimeout(verifyDisplayState, 500);
             }
             });
+
+            window.electronAPI.onOcrCompleted((event, data) => {
+                showOcrPreview(data);
+            });
+
+            window.electronAPI.onOcrError((event, data) => {
+                const message = data && data.error ? data.error : 'Unable to extract text from the screenshot.';
+                showOcrError(message);
+            });
         } else {
             console.error('electronAPI not available! Cannot set up event listeners.');
         }
 
+        function setLoadingMessage(message) {
+            const statusElement = document.getElementById('loading-status');
+            if (statusElement) {
+                statusElement.textContent = message;
+            }
+        }
+
+        function hideResponseContent() {
+            const responseElement = document.getElementById('response-content');
+            if (responseElement) {
+                responseElement.classList.add('hidden');
+            }
+        }
+
         function showLoadingState() {
             const loadingElement = document.getElementById('loading');
-            const responseElement = document.getElementById('response-content');
-            
+            setLoadingMessage('Capturing screenshot...');
+            hideResponseContent();
+
             if (loadingElement) {
                 loadingElement.classList.remove('hidden');
                 loadingElement.style.display = ''; // Remove any forced display styles
             }
             
-            if (responseElement) {
-                responseElement.classList.add('hidden');
-            }
-            
-            console.log('Loading state shown - should see Analyzing...');
+            console.log('Loading state shown - capturing screenshot...');
         }
 
         function hideLoadingState() {
@@ -458,6 +576,126 @@
             } else {
                 console.error('Loading element not found!');
             }
+            setLoadingMessage('Waiting for screenshot');
+        }
+
+        function hideOcrPreview() {
+            const previewElement = document.getElementById('ocr-preview');
+            const cardElement = document.getElementById('ocr-card');
+            if (previewElement) {
+                previewElement.classList.add('hidden');
+            }
+            if (cardElement) {
+                cardElement.classList.remove('error');
+            }
+        }
+
+        function showOcrPreview(data) {
+            const previewElement = document.getElementById('ocr-preview');
+            const cardElement = document.getElementById('ocr-card');
+            const statusElement = document.getElementById('ocr-status');
+            const metaElement = document.getElementById('ocr-meta');
+            const textElement = document.getElementById('ocr-text');
+            const footerElement = document.getElementById('ocr-footer');
+            const loadingElement = document.getElementById('loading');
+
+            if (!previewElement || !cardElement) {
+                return;
+            }
+
+            hideResponseContent();
+
+            if (loadingElement) {
+                loadingElement.classList.add('hidden');
+                loadingElement.style.display = 'none';
+            }
+
+            cardElement.classList.remove('error');
+            setLoadingMessage('Screenshot captured');
+
+            const rawText = data && typeof data.text === 'string' ? data.text.trim() : '';
+            const MAX_PREVIEW_LENGTH = 5000;
+            let displayText = rawText;
+
+            if (displayText.length > MAX_PREVIEW_LENGTH) {
+                displayText = displayText.slice(0, MAX_PREVIEW_LENGTH) + '\n…';
+            }
+
+            if (statusElement) {
+                statusElement.textContent = 'Screenshot captured';
+            }
+
+            if (metaElement) {
+                const metaParts = [];
+                if (rawText) {
+                    const wordCount = rawText.split(/\s+/).filter(Boolean).length;
+                    if (wordCount) {
+                        metaParts.push(`${wordCount} word${wordCount === 1 ? '' : 's'}`);
+                    }
+                }
+                if (data && data.metadata && typeof data.metadata.processingTime === 'number') {
+                    metaParts.push(`${data.metadata.processingTime}ms OCR`);
+                }
+                if (rawText.length > MAX_PREVIEW_LENGTH) {
+                    metaParts.push('Preview truncated');
+                }
+                metaElement.textContent = metaParts.join(' • ');
+            }
+
+            if (textElement) {
+                textElement.textContent = displayText || 'No text detected in the screenshot.';
+            }
+
+            if (footerElement) {
+                let footerMessage = 'Sending to Gemini for analysis...';
+                if (rawText.length > MAX_PREVIEW_LENGTH) {
+                    footerMessage += ' Preview truncated for display.';
+                }
+                footerElement.textContent = footerMessage;
+            }
+
+            previewElement.classList.remove('hidden');
+        }
+
+        function showOcrError(message) {
+            const previewElement = document.getElementById('ocr-preview');
+            const cardElement = document.getElementById('ocr-card');
+            const statusElement = document.getElementById('ocr-status');
+            const metaElement = document.getElementById('ocr-meta');
+            const textElement = document.getElementById('ocr-text');
+            const footerElement = document.getElementById('ocr-footer');
+            const loadingElement = document.getElementById('loading');
+
+            if (!previewElement || !cardElement) {
+                return;
+            }
+
+            if (loadingElement) {
+                loadingElement.classList.add('hidden');
+                loadingElement.style.display = 'none';
+            }
+
+            hideResponseContent();
+            cardElement.classList.add('error');
+            setLoadingMessage('Screenshot failed');
+
+            if (statusElement) {
+                statusElement.textContent = 'Screenshot failed';
+            }
+
+            if (metaElement) {
+                metaElement.textContent = '';
+            }
+
+            if (textElement) {
+                textElement.textContent = message || 'Unable to process the screenshot.';
+            }
+
+            if (footerElement) {
+                footerElement.textContent = 'Press ⌘⇧S to try again.';
+            }
+
+            previewElement.classList.remove('hidden');
         }
 
         function calculateContentMetrics(response, codeBlocks) {
@@ -487,6 +725,7 @@
         }
 
         function displayResponse(data) {
+            hideOcrPreview();
             // Show content
             const responseElement = document.getElementById('response-content');
             
@@ -753,25 +992,31 @@
         function verifyDisplayState() {
             const loadingElement = document.getElementById('loading');
             const responseElement = document.getElementById('response-content');
+            const previewElement = document.getElementById('ocr-preview');
             
             const isLoadingHidden = loadingElement ? loadingElement.classList.contains('hidden') : true;
             const isContentVisible = responseElement ? !responseElement.classList.contains('hidden') : false;
+            const isPreviewVisible = previewElement ? !previewElement.classList.contains('hidden') : false;
             
             console.log('Display state verification:', {
                 loadingHidden: isLoadingHidden,
                 contentVisible: isContentVisible,
+                previewVisible: isPreviewVisible,
                 windowVisible: !document.hidden
             });
             
-            if (!isLoadingHidden || !isContentVisible) {
-                console.warn('Display state inconsistent - forcing correction');
+            if (!isLoadingHidden && !isPreviewVisible && !isContentVisible) {
+                console.warn('Display state inconsistent - forcing correction (hide loading)');
                 if (loadingElement) {
                     loadingElement.classList.add('hidden');
                     loadingElement.style.display = 'none';
                 }
-                if (responseElement) {
-                    responseElement.classList.remove('hidden');
-                }
+                setLoadingMessage('Waiting for screenshot');
+            }
+            
+            if (isLoadingHidden && !isPreviewVisible && !isContentVisible && responseElement) {
+                console.warn('No content visible - showing response container');
+                responseElement.classList.remove('hidden');
             }
         }
 

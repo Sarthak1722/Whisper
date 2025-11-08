@@ -17,6 +17,7 @@ class ApplicationController {
   constructor() {
     this.isReady = false;
     this.activeSkill = "dsa";
+    this.codingLanguage = "cpp";
 
     // Window configurations for reference
     this.windowConfigs = {
@@ -132,6 +133,10 @@ class ApplicationController {
       "CommandOrControl+Left": () => this.handleLeftArrow(),
       "CommandOrControl+Right": () => this.handleRightArrow(),
     };
+
+    if (process.platform === "darwin") {
+      shortcuts["Command+X"] = () => windowManager.toggleLLMResponseVisibility();
+    }
 
     Object.entries(shortcuts).forEach(([accelerator, handler]) => {
       const success = globalShortcut.register(accelerator, handler);
@@ -946,7 +951,7 @@ class ApplicationController {
 
   getSettings() {
     return {
-      codingLanguage: this.codingLanguage || "javascript",
+      codingLanguage: this.codingLanguage || "cpp",
       activeSkill: this.activeSkill || "dsa",
       appIcon: this.appIcon || "terminal",
       selectedIcon: this.appIcon || "terminal",

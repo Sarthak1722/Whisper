@@ -1154,6 +1154,35 @@ class WindowManager {
     }
   }
 
+  toggleLLMResponseVisibility() {
+    const llmWindow = this.windows.get('llmResponse');
+
+    if (!llmWindow || llmWindow.isDestroyed()) {
+      logger.warn('LLM response window not available for toggle');
+      return false;
+    }
+
+    if (llmWindow.isVisible()) {
+      llmWindow.hide();
+      logger.info('LLM response window hidden via toggle');
+      return false;
+    }
+
+    if (this.isScreenBeingShared) {
+      logger.warn('LLM response display blocked during screen sharing');
+      return false;
+    }
+
+    this.showOnCurrentDesktop(llmWindow);
+
+    if (this.bindWindows) {
+      this.positionBoundWindows();
+    }
+
+    logger.info('LLM response window shown via toggle');
+    return true;
+  }
+
   showSettings() {
     if (this.isScreenBeingShared) return;
 

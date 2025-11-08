@@ -74,8 +74,25 @@ class PromptLoader {
    * @returns {string} Modified prompt with programming language context
    */
   injectProgrammingLanguage(promptContent, programmingLanguage, skillName) {
-    const languageUpper = programmingLanguage.toUpperCase();
-    const languageTitle = programmingLanguage.charAt(0).toUpperCase() + programmingLanguage.slice(1);
+    const languageKey = programmingLanguage.toLowerCase();
+    const languageDisplayMap = {
+      cpp: { upper: 'C++', title: 'C++' },
+      'c++': { upper: 'C++', title: 'C++' },
+      csharp: { upper: 'C#', title: 'C#' },
+      'c#': { upper: 'C#', title: 'C#' },
+      typescript: { upper: 'TYPESCRIPT', title: 'TypeScript' },
+      shell: { upper: 'SHELL', title: 'Shell/Bash' },
+      bash: { upper: 'BASH', title: 'Shell/Bash' },
+      javascript: { upper: 'JAVASCRIPT', title: 'JavaScript' }
+    };
+
+    const languageDisplay = languageDisplayMap[languageKey] || {};
+    const languageUpper = languageDisplay.upper || programmingLanguage.toUpperCase();
+    const languageTitle =
+      languageDisplay.title ||
+      (programmingLanguage.length > 1
+        ? programmingLanguage.charAt(0).toUpperCase() + programmingLanguage.slice(1)
+        : programmingLanguage.toUpperCase());
     
     // Create language-specific injection based on skill type
     let languageInjection = '';
