@@ -1,0 +1,2033 @@
+
+> Vysper@1.0.0 start
+> electron .
+
+2025-11-09 00:59:01.542 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 42534,
+  "region": "your_azure_region_here"
+}
+2025-11-09 00:59:01.543 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 42534,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 00:59:01.546 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 42534,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 00:59:01.551 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 42534,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 00:59:01.619 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 42534,
+  "version": "1.0.0",
+  "environment": "development",
+  "platform": "darwin"
+}
+2025-11-09 00:59:01.844 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 42534
+}
+2025-11-09 00:59:03.504 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 42534
+}
+2025-11-09 00:59:03.505 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 42534,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 293,
+    "y": 164
+  }
+}
+2025-11-09 00:59:03.505 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 42534
+}
+2025-11-09 00:59:03.505 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 42534
+}
+2025-11-09 00:59:03.539 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 42534,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 00:59:03.539 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 42534,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 00:59:03.539 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 42534,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+[42534:1109/005908.135854:ERROR:network_service_instance_impl.cc(599)] Network service crashed, restarting service.
+[42534:1109/005908.143547:ERROR:command_buffer_proxy_impl.cc(323)] GPU state invalid after WaitForGetOffsetInRange.
+2025-11-09 00:59:12.424 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:12.793 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:13.009 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:13.412 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:13.798 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:14.206 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:14.709 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:14.969 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:15.158 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:15.515 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:15.857 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:38.622 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:39.389 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:39.776 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:41.388 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:44.554 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:45.319 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 00:59:45.738 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 01:01:27.308 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 01:01:28.030 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 42534
+}
+2025-11-09 01:01:39.854 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 42534
+}
+2025-11-09 01:15:17.468 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 7038,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 01:15:17.480 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 7038,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 01:15:17.495 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 7038,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 01:15:17.889 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 7038,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 01:15:18.247 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 7038
+}
+2025-11-09 01:15:22.317 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 7038
+}
+2025-11-09 01:15:22.325 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 7038,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 789,
+    "y": 515
+  }
+}
+2025-11-09 01:15:22.325 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 7038
+}
+2025-11-09 01:15:22.326 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 7038
+}
+2025-11-09 01:15:22.493 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 7038,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 01:15:22.495 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 7038,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 01:15:22.495 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 7038,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 01:15:23.441 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:15:56.803 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:15:58.209 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:16:07.548 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:16:08.584 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:18:33.478 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:18:34.370 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 7038
+}
+2025-11-09 01:19:15.958 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 8993,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 01:19:15.969 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 8993,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 01:19:15.983 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 8993,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 01:19:16.376 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 8993,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 01:19:16.773 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 8993
+}
+2025-11-09 01:19:20.953 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 8993
+}
+2025-11-09 01:19:20.956 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 8993,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 890,
+    "y": 715
+  }
+}
+2025-11-09 01:19:20.957 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 8993
+}
+2025-11-09 01:19:20.957 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 8993
+}
+2025-11-09 01:19:21.139 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 8993,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 01:19:21.140 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 8993,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 01:19:21.140 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 8993,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 01:19:21.179 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 8993
+}
+2025-11-09 01:20:26.320 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 9552,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 01:20:26.332 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 9552,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 01:20:26.346 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 9552,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 01:20:26.997 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 9552,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 01:20:27.284 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 9552
+}
+2025-11-09 01:20:30.742 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 9552
+}
+2025-11-09 01:20:30.744 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 9552,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 444,
+    "y": 544
+  }
+}
+2025-11-09 01:20:30.744 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 9552
+}
+2025-11-09 01:20:30.744 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 9552
+}
+2025-11-09 01:20:30.871 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 9552,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 01:20:30.872 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 9552,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 01:20:30.872 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 9552,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 01:20:31.343 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:20:39.739 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:20:43.725 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:22:51.566 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:22:55.507 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:22:56.609 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:01.528 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 9552,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-09 01:23:06.126 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:07.275 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:08.667 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:10.753 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:20.080 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:25.020 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:23:26.836 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 9552
+}
+2025-11-09 01:24:27.179 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 11001,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 01:24:27.187 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 11001,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 01:24:27.198 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 11001,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 01:24:27.543 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 11001,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 01:24:27.857 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 11001
+}
+2025-11-09 01:24:31.024 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 11001
+}
+2025-11-09 01:24:31.025 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 11001,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 829,
+    "y": 511
+  }
+}
+2025-11-09 01:24:31.026 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 11001
+}
+2025-11-09 01:24:31.026 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 11001
+}
+2025-11-09 01:24:31.186 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 11001,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 01:24:31.186 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 11001,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 01:24:31.187 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 11001,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 01:24:36.209 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:24:36.862 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:24:38.184 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:24:41.703 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:24:42.650 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:24:56.515 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:24:57.878 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11001
+}
+2025-11-09 01:25:48.598 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 11387,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 01:25:48.605 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 11387,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 01:25:48.613 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 11387,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 01:25:48.939 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 11387,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 01:25:49.248 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 11387
+}
+2025-11-09 01:25:52.728 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 11387
+}
+2025-11-09 01:25:52.729 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 11387,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 995,
+    "y": 461
+  }
+}
+2025-11-09 01:25:52.729 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 11387
+}
+2025-11-09 01:25:52.730 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 11387
+}
+2025-11-09 01:25:52.874 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 11387,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 01:25:52.875 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 11387,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 01:25:52.876 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 11387,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 01:25:53.572 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:25:54.361 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:25:55.483 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:25:56.188 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:25:58.372 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 11387
+}
+2025-11-09 01:25:59.451 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:01.727 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:02.507 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:08.836 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:09.751 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:14.551 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 11387,
+  "originalLength": 1075,
+  "cleanedLength": 1046,
+  "wordsExtracted": 190
+}
+2025-11-09 01:26:14.552 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 11387,
+  "duration": "16180ms",
+  "textLength": 1046,
+  "hasContent": true
+}
+2025-11-09 01:26:14.553 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 11387,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-09 01:26:14.554 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 11387,
+  "activeSkill": "dsa",
+  "textLength": 1046,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 01:26:14.782 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 11387,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 01:26:16.737 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:17.984 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:33.003 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 11387,
+  "responseLength": 548,
+  "statusCode": 200
+}
+2025-11-09 01:26:33.006 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 11387,
+  "duration": "18452ms",
+  "activeSkill": "dsa",
+  "textLength": 1046,
+  "responseLength": 548,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 01:26:33.007 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 11387,
+  "responseLength": 548,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 18452,
+  "responsePreview": "Of course. This is a classic linked list problem that tests your ability to manipulate pointers and handle carry-over arithmetic.\n\n### **Problem Analysis**\n\n*   **Pattern Recognition**: This is a **Li..."
+}
+2025-11-09 01:26:33.017 [32MINFO[39M [WINDOW] LLM response displayed
+{
+  "pid": 11387,
+  "contentLength": 548,
+  "skill": "dsa",
+  "windowVisible": false,
+  "boundWindows": true
+}
+2025-11-09 01:26:33.018 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 11387,
+  "responseLength": 548,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "Of course. This is a classic linked list problem that tests your ability to manipulate pointers and ..."
+}
+2025-11-09 01:26:33.019 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 11387,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "Of course. This is a classic linked list problem t..."
+}
+2025-11-09 01:26:35.972 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:44.290 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 11387
+}
+2025-11-09 01:26:51.374 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 11387
+}
+2025-11-09 02:30:34.011 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 12789,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 02:30:34.023 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 12789,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 02:30:34.039 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 12789,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 02:30:34.372 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 12789,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 02:30:34.749 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 12789
+}
+2025-11-09 02:30:38.594 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 12789
+}
+2025-11-09 02:30:38.597 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 12789,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 659,
+    "y": 390
+  }
+}
+2025-11-09 02:30:38.598 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 12789
+}
+2025-11-09 02:30:38.598 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 12789
+}
+2025-11-09 02:30:38.743 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 12789,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 02:30:38.744 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 12789,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 02:30:38.744 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 12789,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 02:31:07.358 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:12.803 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:15.015 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:15.794 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 12789
+}
+2025-11-09 02:31:16.976 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:25.667 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:26.629 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:33.205 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 12789,
+  "originalLength": 1080,
+  "cleanedLength": 1061,
+  "wordsExtracted": 201
+}
+2025-11-09 02:31:33.206 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 12789,
+  "duration": "17412ms",
+  "textLength": 1061,
+  "hasContent": true
+}
+2025-11-09 02:31:33.217 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 12789,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-09 02:31:33.220 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 12789,
+  "activeSkill": "dsa",
+  "textLength": 1061,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 02:31:33.524 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 12789,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 02:31:34.339 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:34.812 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:51.073 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 12789,
+  "responseLength": 1239,
+  "statusCode": 200
+}
+2025-11-09 02:31:51.075 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 12789,
+  "duration": "17855ms",
+  "activeSkill": "dsa",
+  "textLength": 1061,
+  "responseLength": 1239,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 02:31:51.076 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 12789,
+  "responseLength": 1239,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 17855,
+  "responsePreview": "Of course. This is a classic Linked List problem. Let's break it down.\n\n**Pattern Recognition**: This is a **Linked List** traversal problem. The core idea is to simulate elementary school addition, d..."
+}
+2025-11-09 02:31:51.094 [32MINFO[39M [WINDOW] LLM response displayed
+{
+  "pid": 12789,
+  "contentLength": 1239,
+  "skill": "dsa",
+  "windowVisible": false,
+  "boundWindows": true
+}
+2025-11-09 02:31:51.094 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 12789,
+  "responseLength": 1239,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "Of course. This is a classic Linked List problem. Let's break it down.\n\n**Pattern Recognition**: Thi..."
+}
+2025-11-09 02:31:51.097 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 12789,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "Of course. This is a classic Linked List problem. ..."
+}
+2025-11-09 02:31:53.754 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:55.102 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:31:59.926 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 12789,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-09 02:32:12.641 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:32:15.391 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:32:16.057 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 12789
+}
+2025-11-09 02:32:29.682 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 12789
+}
+2025-11-09 07:02:26.114 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 16383,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 07:02:26.123 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 16383,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 07:02:26.137 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 16383,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:02:26.671 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 16383,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 07:02:27.055 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 16383
+}
+2025-11-09 07:02:32.350 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 16383
+}
+2025-11-09 07:02:32.353 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 16383,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 857,
+    "y": 490
+  }
+}
+2025-11-09 07:02:32.353 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 16383
+}
+2025-11-09 07:02:32.354 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 16383
+}
+2025-11-09 07:02:32.557 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 16383,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 07:02:32.558 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 16383,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 07:02:32.558 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 16383,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 07:02:33.667 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:35.406 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:38.096 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 16383
+}
+2025-11-09 07:02:40.860 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:44.551 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:46.751 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:47.706 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:54.285 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:54.792 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:02:55.463 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 16383,
+  "originalLength": 1069,
+  "cleanedLength": 1056,
+  "wordsExtracted": 215
+}
+2025-11-09 07:02:55.464 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 16383,
+  "duration": "17368ms",
+  "textLength": 1056,
+  "hasContent": true
+}
+2025-11-09 07:02:55.470 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 16383,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-09 07:02:55.477 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 16383,
+  "activeSkill": "dsa",
+  "textLength": 1056,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 07:02:56.010 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 16383,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 07:03:00.246 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:06.081 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:07.519 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:08.102 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:08.628 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:15.440 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:38.729 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:03:58.628 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 16383,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 07:04:23.307 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:04:34.648 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:04:40.826 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 16383
+}
+2025-11-09 07:04:49.181 [32MINFO[39M [SESSION] Session memory cleared
+{
+  "pid": 16383,
+  "eventCount": 12
+}
+2025-11-09 07:04:49.183 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 16383,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:04:49.184 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 16383,
+  "channel": "session-cleared",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [],
+  "dataPreview": "No response"
+}
+2025-11-09 07:04:49.185 [32MINFO[39M [MAIN] Session memory cleared via global shortcut
+{
+  "pid": 16383
+}
+2025-11-09 07:04:49.899 [32MINFO[39M [SESSION] Session memory cleared
+{
+  "pid": 16383,
+  "eventCount": 9
+}
+2025-11-09 07:04:49.900 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 16383,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:04:49.902 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 16383,
+  "channel": "session-cleared",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [],
+  "dataPreview": "No response"
+}
+2025-11-09 07:04:49.902 [32MINFO[39M [MAIN] Session memory cleared via global shortcut
+{
+  "pid": 16383
+}
+2025-11-09 07:04:50.135 [32MINFO[39M [SESSION] Session memory cleared
+{
+  "pid": 16383,
+  "eventCount": 9
+}
+2025-11-09 07:04:50.136 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 16383,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:04:50.137 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 16383,
+  "channel": "session-cleared",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [],
+  "dataPreview": "No response"
+}
+2025-11-09 07:04:50.137 [32MINFO[39M [MAIN] Session memory cleared via global shortcut
+{
+  "pid": 16383
+}
+2025-11-09 07:04:50.964 [32MINFO[39M [SESSION] Session memory cleared
+{
+  "pid": 16383,
+  "eventCount": 9
+}
+2025-11-09 07:04:50.966 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 16383,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:04:50.966 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 16383,
+  "channel": "session-cleared",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [],
+  "dataPreview": "No response"
+}
+2025-11-09 07:04:50.967 [32MINFO[39M [MAIN] Session memory cleared via global shortcut
+{
+  "pid": 16383
+}
+2025-11-09 07:05:04.121 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 16383,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 07:05:15.109 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 17846,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 07:05:15.118 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 17846,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 07:05:15.131 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 17846,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:05:15.810 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 17846,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 07:05:16.212 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 17846
+}
+2025-11-09 07:05:20.873 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 17846
+}
+2025-11-09 07:05:20.877 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 17846,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 673,
+    "y": 405
+  }
+}
+2025-11-09 07:05:20.878 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 17846
+}
+2025-11-09 07:05:20.878 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 17846
+}
+2025-11-09 07:05:21.118 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 17846,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 07:05:21.120 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 17846,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 07:05:21.121 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 17846,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 07:05:21.958 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:05:22.673 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:05:25.942 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 17846
+}
+2025-11-09 07:05:28.353 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:05:37.872 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:05:47.385 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 17846,
+  "originalLength": 1210,
+  "cleanedLength": 1197,
+  "wordsExtracted": 265
+}
+2025-11-09 07:05:47.386 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 17846,
+  "duration": "21445ms",
+  "textLength": 1197,
+  "hasContent": true
+}
+2025-11-09 07:05:47.395 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 17846,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-09 07:05:47.402 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 17846,
+  "activeSkill": "dsa",
+  "textLength": 1197,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 07:05:47.655 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 17846,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 07:05:50.848 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:06:05.078 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 17846,
+  "responseLength": 2761,
+  "statusCode": 200
+}
+2025-11-09 07:06:05.083 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 17846,
+  "duration": "17681ms",
+  "activeSkill": "dsa",
+  "textLength": 1197,
+  "responseLength": 2761,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 07:06:05.083 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 17846,
+  "responseLength": 2761,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 17682,
+  "responsePreview": "Of course. This is the classic \"Two Sum\" problem, a great warm-up for interviews. It tests your knowledge of array manipulation and hash table usage.\n\nThe code provided in the image implements the bru..."
+}
+2025-11-09 07:06:05.113 [32MINFO[39M [WINDOW] LLM response displayed
+{
+  "pid": 17846,
+  "contentLength": 2761,
+  "skill": "dsa",
+  "windowVisible": false,
+  "boundWindows": true
+}
+2025-11-09 07:06:05.114 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 17846,
+  "responseLength": 2761,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "Of course. This is the classic \"Two Sum\" problem, a great warm-up for interviews. It tests your know..."
+}
+2025-11-09 07:06:05.118 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 17846,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "Of course. This is the classic \"Two Sum\" problem, ..."
+}
+2025-11-09 07:06:10.817 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 17846,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-09 07:06:30.708 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:14:25.643 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:15:05.265 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 17846
+}
+2025-11-09 07:16:28.326 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 23141,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 07:16:28.338 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 23141,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 07:16:28.353 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 23141,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:16:28.714 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 23141,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 07:16:29.151 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 23141
+}
+2025-11-09 07:16:33.706 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 23141
+}
+2025-11-09 07:16:33.711 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 23141,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 1035,
+    "y": 763
+  }
+}
+2025-11-09 07:16:33.712 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 23141
+}
+2025-11-09 07:16:33.712 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 23141
+}
+2025-11-09 07:16:33.895 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 23141,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 07:16:33.896 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 23141,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 07:16:33.896 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 23141,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 07:16:54.527 [32MINFO[39M [SPEECH] Azure Speech service initialized successfully
+{
+  "pid": 23542,
+  "region": "your_azure_region_here",
+  "language": "en-US"
+}
+2025-11-09 07:16:54.534 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 23542,
+  "model": "gemini-2.5-pro"
+}
+2025-11-09 07:16:54.543 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 23542,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-09 07:16:55.242 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 23542,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-09 07:16:55.683 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 23542
+}
+2025-11-09 07:16:59.966 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 23542
+}
+2025-11-09 07:16:59.970 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 23542,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 771,
+    "y": 602
+  }
+}
+2025-11-09 07:16:59.971 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 23542
+}
+2025-11-09 07:16:59.971 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 23542
+}
+2025-11-09 07:17:00.161 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 23542,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-09 07:17:00.164 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 23542,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/OG/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-09 07:17:00.166 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 23542,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-09 07:17:02.370 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 23542
+}
+2025-11-09 07:17:02.864 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 23542
+}
+2025-11-09 07:17:04.712 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 23542
+}
+2025-11-09 07:17:25.305 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 23542,
+  "originalLength": 1176,
+  "cleanedLength": 1166,
+  "wordsExtracted": 260
+}
+2025-11-09 07:17:25.309 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 23542,
+  "duration": "20599ms",
+  "textLength": 1166,
+  "hasContent": true
+}
+2025-11-09 07:17:25.323 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 23542,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-09 07:17:25.327 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 23542,
+  "activeSkill": "dsa",
+  "textLength": 1166,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 07:17:25.645 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 23542,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 07:17:50.417 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 23542
+}

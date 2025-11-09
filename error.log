@@ -1,0 +1,258 @@
+2025-11-09 01:15:17.464 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 7038,
+  "region": "your_azure_region_here"
+}
+2025-11-09 01:19:15.954 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 8993,
+  "region": "your_azure_region_here"
+}
+2025-11-09 01:20:26.316 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 9552,
+  "region": "your_azure_region_here"
+}
+2025-11-09 01:24:27.176 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 11001,
+  "region": "your_azure_region_here"
+}
+2025-11-09 01:25:48.595 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 11387,
+  "region": "your_azure_region_here"
+}
+2025-11-09 01:26:14.781 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 11387,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 01:26:14.782 [33MWARN[39M [LLM] Gemini API attempt 1 failed
+{
+  "pid": 11387,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 2
+}
+2025-11-09 01:26:14.782 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 11387,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-09 02:30:34.008 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 12789,
+  "region": "your_azure_region_here"
+}
+2025-11-09 02:31:33.522 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 12789,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 02:31:33.523 [33MWARN[39M [LLM] Gemini API attempt 1 failed
+{
+  "pid": 12789,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 2
+}
+2025-11-09 02:31:33.523 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 12789,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-09 07:02:26.110 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 16383,
+  "region": "your_azure_region_here"
+}
+2025-11-09 07:02:56.009 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 16383,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/Study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/Study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/Study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/Study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 07:02:56.010 [33MWARN[39M [LLM] Gemini API attempt 1 failed
+{
+  "pid": 16383,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 2
+}
+2025-11-09 07:02:56.010 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 16383,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-09 07:03:56.121 [31MERROR[39M [LLM] HTTPS transport attempt failed
+{
+  "pid": 16383,
+  "error": "Alternative request timeout",
+  "transport": "https_direct"
+}
+2025-11-09 07:03:58.627 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 16383,
+  "attempt": 2,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/Study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/Study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/Study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/Study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 07:03:58.627 [33MWARN[39M [LLM] Gemini API attempt 2 failed
+{
+  "pid": 16383,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 1
+}
+2025-11-09 07:03:58.628 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 16383,
+  "attempt": 2,
+  "transport": "https_direct"
+}
+2025-11-09 07:04:59.275 [31MERROR[39M [LLM] HTTPS transport attempt failed
+{
+  "pid": 16383,
+  "error": "Alternative request timeout",
+  "transport": "https_direct"
+}
+2025-11-09 07:05:04.120 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 16383,
+  "attempt": 3,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/Study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/Study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/Study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/Study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 07:05:04.121 [33MWARN[39M [LLM] Gemini API attempt 3 failed
+{
+  "pid": 16383,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 0
+}
+2025-11-09 07:05:04.121 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 16383,
+  "attempt": 3,
+  "transport": "https_direct"
+}
+2025-11-09 07:05:15.106 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 17846,
+  "region": "your_azure_region_here"
+}
+2025-11-09 07:05:47.653 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 17846,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/Study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/Study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/Study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/Study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 07:05:47.654 [33MWARN[39M [LLM] Gemini API attempt 1 failed
+{
+  "pid": 17846,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 2
+}
+2025-11-09 07:05:47.655 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 17846,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-09 07:16:28.322 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 23141,
+  "region": "your_azure_region_here"
+}
+2025-11-09 07:16:54.524 [33MWARN[39M [SPEECH] Potentially invalid Azure region specified
+{
+  "pid": 23542,
+  "region": "your_azure_region_here"
+}
+2025-11-09 07:17:25.643 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 23542,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/Study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/Study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/Study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/Study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 07:17:25.644 [33MWARN[39M [LLM] Gemini API attempt 1 failed
+{
+  "pid": 23542,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 2
+}
+2025-11-09 07:17:25.645 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 23542,
+  "attempt": 1,
+  "transport": "https_direct"
+}

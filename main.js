@@ -47,6 +47,30 @@ class ApplicationController {
       process.env.ELECTRON_NO_ATTACH_CONSOLE = "1";
       process.env.ELECTRON_NO_ASAR = "1";
     }
+
+    // Enhanced stealth for background service mode
+    if (process.platform === "darwin") {
+      // Hide from Dock
+      if (config.get("stealth.hideFromDock")) {
+        try {
+          app.dock?.hide();
+        } catch (error) {
+          logger.debug("Could not hide dock icon", { error: error.message });
+        }
+      }
+
+      // Disguise process name more aggressively
+      try {
+        // Try to rename the process to something innocuous
+        process.title = "Terminal";
+        if (process.argv0) {
+          process.argv0 = "Terminal";
+        }
+      } catch (error) {
+        // Some systems may not allow this
+        logger.debug("Could not rename process", { error: error.message });
+      }
+    }
   }
 
   setupEventHandlers() {
@@ -63,6 +87,15 @@ class ApplicationController {
     // Force stealth mode IMMEDIATELY when app is ready
     app.setName("Terminal ");
     process.title = "Terminal ";
+
+    // Hide Dock icon if running as background service
+    if (process.platform === "darwin" && config.get("stealth.hideFromDock")) {
+      try {
+        app.dock?.hide();
+      } catch (error) {
+        logger.debug("Could not hide dock icon", { error: error.message });
+      }
+    }
 
     logger.info("Application starting", {
       version: config.get("app.version"),
