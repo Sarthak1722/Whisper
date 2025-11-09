@@ -256,3 +256,37 @@
   "attempt": 1,
   "transport": "https_direct"
 }
+2025-11-09 07:18:25.921 [31MERROR[39M [LLM] HTTPS transport attempt failed
+{
+  "pid": 23542,
+  "error": "Alternative request timeout",
+  "transport": "https_direct"
+}
+2025-11-09 07:18:28.956 [31MERROR[39M [LLM] Network error details
+{
+  "pid": 23542,
+  "attempt": 2,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorStack": "TypeError: fetch failed\n    at Object.fetch (node:internal/deps/undici/undici:12293:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async makeRequest (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:397:20)\n    at async generateContent (/Users/sarthak/Study/OG/node_modules/@google/generative-ai/dist/index.js:867:22)\n    at async LLMService.executeRequest (/Users/sarthak/Study/OG/src/services/llm.service.js:539:24)\n    at async LLMService.processTextWithSkill (/Users/sarthak/Study/OG/src/services/llm.service.js:67:20)\n    at async ApplicationController.processWithLLM (/Users/sarthak/Study/OG/main.js:743:25)\n    at async ApplicationController.triggerScreenshotOCR (/Users/sarthak/Study/OG/main.js:713:7)",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0",
+  "userAgent": "Node.js"
+}
+2025-11-09 07:18:28.958 [33MWARN[39M [LLM] Gemini API attempt 2 failed
+{
+  "pid": 23542,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 1
+}
+2025-11-09 07:18:28.958 [33MWARN[39M [LLM] Switching to HTTPS transport after network error
+{
+  "pid": 23542,
+  "attempt": 2,
+  "transport": "https_direct"
+}

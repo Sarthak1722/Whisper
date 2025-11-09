@@ -2031,3 +2031,112 @@
 {
   "pid": 23542
 }
+2025-11-09 07:18:28.958 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 23542,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta"
+}
+2025-11-09 07:18:45.902 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 23542,
+  "responseLength": 2940,
+  "statusCode": 200
+}
+2025-11-09 07:18:45.904 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 23542,
+  "duration": "80577ms",
+  "activeSkill": "dsa",
+  "textLength": 1166,
+  "responseLength": 2939,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-09 07:18:45.904 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 23542,
+  "responseLength": 2939,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 80577,
+  "responsePreview": "Of course. This is the \"Two Sum\" problem, a classic introductory question. Let's break it down.\n\n**Pattern Recognition**: This is an array-based problem that can be solved naively with loops but is op..."
+}
+2025-11-09 07:18:45.920 [32MINFO[39M [WINDOW] LLM response displayed
+{
+  "pid": 23542,
+  "contentLength": 2939,
+  "skill": "dsa",
+  "windowVisible": false,
+  "boundWindows": true
+}
+2025-11-09 07:18:45.921 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 23542,
+  "responseLength": 2939,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "Of course. This is the \"Two Sum\" problem, a classic introductory question. Let's break it down.\n\n**P..."
+}
+2025-11-09 07:18:45.922 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 23542,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "Of course. This is the \"Two Sum\" problem, a classi..."
+}
+2025-11-09 07:18:48.644 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 23542,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-09 07:18:58.531 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 23542
+}
+2025-11-09 07:19:07.689 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle
+{
+  "pid": 23542
+}
+2025-11-09 07:19:10.157 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle
+{
+  "pid": 23542
+}
