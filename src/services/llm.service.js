@@ -98,14 +98,43 @@ class LLMService {
       };
     } catch (error) {
       this.errorCount++;
-      logger.error('LLM processing failed', {
+      
+      // Enhanced error analysis for fallback diagnosis
+      const errorInfo = error.errorAnalysis || this.analyzeError(error);
+      
+      // Log error immediately (synchronously)
+      logger.error('LLM processing failed - FALLBACK TRIGGERED', {
         error: error.message,
+        errorType: errorInfo.type,
+        errorName: error.name,
         activeSkill,
         programmingLanguage: programmingLanguage || 'not specified',
-        requestId: this.requestCount
+        requestId: this.requestCount,
+        isNetworkError: errorInfo.isNetworkError,
+        suggestedAction: errorInfo.suggestedAction,
+        errorStack: error.stack,
+        fallbackEnabled: config.get('llm.gemini.fallbackEnabled'),
+        maxRetries: config.get('llm.gemini.maxRetries'),
+        timeout: config.get('llm.gemini.timeout')
+      });
+
+      // Check network connectivity asynchronously (don't block fallback)
+      this.checkNetworkConnectivity().then(networkCheck => {
+        logger.debug('Network connectivity check completed after fallback', {
+          requestId: this.requestCount,
+          networkCheck
+        });
+      }).catch(() => {
+        logger.debug('Network connectivity check failed', { requestId: this.requestCount });
       });
 
       if (config.get('llm.gemini.fallbackEnabled')) {
+        logger.warn('Using fallback response due to LLM failure', {
+          originalError: error.message,
+          errorType: errorInfo.type,
+          activeSkill,
+          requestId: this.requestCount
+        });
         return this.generateFallbackResponse(text, activeSkill);
       }
       
@@ -170,14 +199,32 @@ class LLMService {
       };
     } catch (error) {
       this.errorCount++;
-      logger.error('LLM transcription processing failed', {
+      
+      // Enhanced error analysis for fallback diagnosis
+      const errorInfo = error.errorAnalysis || this.analyzeError(error);
+      
+      logger.error('LLM transcription processing failed - FALLBACK TRIGGERED', {
         error: error.message,
+        errorType: errorInfo.type,
+        errorName: error.name,
         activeSkill,
         programmingLanguage: programmingLanguage || 'not specified',
-        requestId: this.requestCount
+        requestId: this.requestCount,
+        isNetworkError: errorInfo.isNetworkError,
+        suggestedAction: errorInfo.suggestedAction,
+        errorStack: error.stack,
+        fallbackEnabled: config.get('llm.gemini.fallbackEnabled'),
+        maxRetries: config.get('llm.gemini.maxRetries'),
+        timeout: config.get('llm.gemini.timeout')
       });
 
       if (config.get('llm.gemini.fallbackEnabled')) {
+        logger.warn('Using intelligent fallback response due to LLM failure', {
+          originalError: error.message,
+          errorType: errorInfo.type,
+          activeSkill,
+          requestId: this.requestCount
+        });
         return this.generateIntelligentFallbackResponse(text, activeSkill);
       }
       
@@ -503,10 +550,15 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       platform: process.platform
     });
     
+    let lastError = null;
+    let lastErrorInfo = null;
+    
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
-        // Pre-flight check
-        await this.performPreflightCheck();
+        // Pre-flight check (only on first attempt to avoid delays)
+        if (attempt === 1) {
+          await this.performPreflightCheck();
+        }
         
         const timeoutPromise = new Promise((_, reject) => 
           setTimeout(() => reject(new Error('Request timeout')), timeout)
@@ -514,7 +566,9 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
         
         logger.debug(`Gemini API attempt ${attempt} starting`, {
           timestamp: new Date().toISOString(),
-          timeout
+          timeout,
+          attempt,
+          maxRetries
         });
 
         try {
@@ -535,67 +589,90 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
           });
         }
         
+        // Execute the request with timeout
         const requestPromise = this.model.generateContent(geminiRequest);
         const result = await Promise.race([requestPromise, timeoutPromise]);
         
-        if (!result.response) {
+        if (!result || !result.response) {
           throw new Error('Empty response from Gemini API');
         }
 
         const responseText = result.response.text();
         
-        if (!responseText || responseText.trim().length === 0) {
+        if (!responseText || typeof responseText !== 'string' || responseText.trim().length === 0) {
           throw new Error('Empty text content in Gemini response');
         }
 
-        logger.debug('Gemini API request successful', {
+        logger.info('Gemini API request successful', {
           attempt,
-          responseLength: responseText.length
+          responseLength: responseText.length,
+          totalAttempts: attempt
         });
 
         return responseText.trim();
       } catch (error) {
+        lastError = error;
         const errorInfo = this.analyzeError(error);
+        lastErrorInfo = errorInfo;
         
         // Enhanced error logging for fetch failures
         if (errorInfo.type === 'NETWORK_ERROR') {
-          logger.error('Network error details', {
+          logger.warn('Network error detected', {
             attempt,
             errorMessage: error.message,
-            errorStack: error.stack,
             errorName: error.name,
             nodeEnv: process.env.NODE_ENV,
             electronVersion: process.versions.electron,
             chromeVersion: process.versions.chrome,
-            nodeVersion: process.versions.node,
-            userAgent: this.getUserAgent()
+            nodeVersion: process.versions.node
           });
         }
         
-        logger.warn(`Gemini API attempt ${attempt} failed`, {
+        logger.warn(`Gemini API attempt ${attempt}/${maxRetries} failed`, {
           error: error.message,
           errorType: errorInfo.type,
           isNetworkError: errorInfo.isNetworkError,
+          isRetryable: errorInfo.isRetryable,
           suggestedAction: errorInfo.suggestedAction,
           remainingAttempts: maxRetries - attempt
         });
 
-        if (errorInfo.type === 'NETWORK_ERROR' && config.get('llm.gemini.enableFallbackMethod')) {
+        // If error is not retryable, fail immediately
+        if (errorInfo.isRetryable === false) {
+          logger.error('Non-retryable error detected, failing immediately', {
+            errorType: errorInfo.type,
+            error: error.message
+          });
+          const finalError = new Error(`Gemini API error (non-retryable): ${error.message}`);
+          finalError.errorAnalysis = errorInfo;
+          finalError.originalError = error;
+          throw finalError;
+        }
+
+        // Try alternative HTTPS method for network errors (but not on every attempt to avoid spam)
+        if (errorInfo.type === 'NETWORK_ERROR' && config.get('llm.gemini.enableFallbackMethod') && attempt <= 2) {
           try {
-            logger.warn('Switching to HTTPS transport after network error', {
+            logger.info('Attempting alternative HTTPS transport', {
               attempt,
               transport: 'https_direct'
             });
             const fallbackResponse = await this.executeAlternativeRequest(geminiRequest);
+            logger.info('Alternative HTTPS transport succeeded', {
+              attempt,
+              responseLength: fallbackResponse.length
+            });
             return fallbackResponse;
           } catch (fallbackError) {
-            logger.error('HTTPS transport attempt failed', {
+            logger.warn('Alternative HTTPS transport failed', {
+              attempt,
               error: fallbackError.message,
               transport: 'https_direct'
             });
+            // Continue with retry logic below
           }
         }
 
+        // If this is the last attempt, throw the error
         if (attempt === maxRetries) {
           const finalError = new Error(`Gemini API failed after ${maxRetries} attempts: ${error.message}`);
           finalError.errorAnalysis = errorInfo;
@@ -603,18 +680,32 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
           throw finalError;
         }
 
-        // Use exponential backoff with jitter for network errors
+        // Calculate delay with exponential backoff and jitter
+        // For network errors: longer delays (2s, 4s, 8s...)
+        // For other errors: shorter delays (1s, 2s, 4s...)
         const baseDelay = errorInfo.isNetworkError ? 2000 : 1000;
-        const delay = baseDelay * attempt + Math.random() * 1000;
+        const exponentialDelay = baseDelay * Math.pow(2, attempt - 1);
+        const jitter = Math.random() * 1000; // Random 0-1000ms
+        const delay = Math.min(exponentialDelay + jitter, 10000); // Cap at 10 seconds
         
-        logger.debug(`Waiting ${delay}ms before retry ${attempt + 1}`, {
+        logger.debug(`Waiting ${Math.round(delay)}ms before retry ${attempt + 1}`, {
           baseDelay,
-          isNetworkError: errorInfo.isNetworkError
+          exponentialDelay,
+          jitter: Math.round(jitter),
+          finalDelay: Math.round(delay),
+          isNetworkError: errorInfo.isNetworkError,
+          attempt
         });
         
         await this.delay(delay);
       }
     }
+    
+    // This should never be reached, but just in case
+    const finalError = new Error(`Gemini API failed after ${maxRetries} attempts: ${lastError?.message || 'Unknown error'}`);
+    finalError.errorAnalysis = lastErrorInfo;
+    finalError.originalError = lastError;
+    throw finalError;
   }
 
   async performPreflightCheck() {
@@ -652,54 +743,98 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
 
   analyzeError(error) {
     const errorMessage = error.message.toLowerCase();
+    const errorString = error.toString().toLowerCase();
     
     // Network connectivity errors
     if (errorMessage.includes('fetch failed') || 
         errorMessage.includes('network error') ||
         errorMessage.includes('enotfound') ||
         errorMessage.includes('econnrefused') ||
-        errorMessage.includes('timeout')) {
+        errorMessage.includes('econnreset') ||
+        errorMessage.includes('econnaborted') ||
+        errorMessage.includes('socket hang up') ||
+        errorMessage.includes('connection reset') ||
+        errorString.includes('fetch failed')) {
       return {
         type: 'NETWORK_ERROR',
         isNetworkError: true,
+        isRetryable: true,
         suggestedAction: 'Check internet connection and firewall settings'
       };
     }
     
-    // API key errors
+    // API key errors (not retryable)
     if (errorMessage.includes('unauthorized') || 
         errorMessage.includes('invalid api key') ||
-        errorMessage.includes('forbidden')) {
+        errorMessage.includes('forbidden') ||
+        errorMessage.includes('401') ||
+        errorMessage.includes('403')) {
       return {
         type: 'AUTH_ERROR',
         isNetworkError: false,
+        isRetryable: false,
         suggestedAction: 'Verify Gemini API key configuration'
       };
     }
     
-    // Rate limiting
+    // Rate limiting (retryable with backoff)
     if (errorMessage.includes('quota') || 
         errorMessage.includes('rate limit') ||
-        errorMessage.includes('too many requests')) {
+        errorMessage.includes('too many requests') ||
+        errorMessage.includes('429') ||
+        errorMessage.includes('resource exhausted')) {
       return {
         type: 'RATE_LIMIT_ERROR',
         isNetworkError: false,
+        isRetryable: true,
         suggestedAction: 'Wait before retrying or check API quota'
       };
     }
     
-    // Timeout errors
-    if (errorMessage.includes('request timeout')) {
+    // Timeout errors (retryable)
+    if (errorMessage.includes('request timeout') ||
+        errorMessage.includes('timeout') ||
+        errorMessage.includes('timed out')) {
       return {
         type: 'TIMEOUT_ERROR',
         isNetworkError: true,
+        isRetryable: true,
         suggestedAction: 'Check network latency or increase timeout'
+      };
+    }
+    
+    // Server errors (retryable)
+    if (errorMessage.includes('500') ||
+        errorMessage.includes('502') ||
+        errorMessage.includes('503') ||
+        errorMessage.includes('504') ||
+        errorMessage.includes('internal server error') ||
+        errorMessage.includes('bad gateway') ||
+        errorMessage.includes('service unavailable')) {
+      return {
+        type: 'SERVER_ERROR',
+        isNetworkError: false,
+        isRetryable: true,
+        suggestedAction: 'Server error - will retry automatically'
+      };
+    }
+    
+    // Invalid request errors (not retryable)
+    if (errorMessage.includes('400') ||
+        errorMessage.includes('bad request') ||
+        errorMessage.includes('invalid request')) {
+      return {
+        type: 'INVALID_REQUEST_ERROR',
+        isNetworkError: false,
+        isRetryable: false,
+        suggestedAction: 'Check request format and parameters'
       };
     }
     
     return {
       type: 'UNKNOWN_ERROR',
       isNetworkError: false,
+      isRetryable: true, // Default to retryable for unknown errors
       suggestedAction: 'Check logs for more details'
     };
   }
@@ -890,7 +1025,30 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       requestCount: this.requestCount,
       errorCount: this.errorCount,
       successRate: this.requestCount > 0 ? ((this.requestCount - this.errorCount) / this.requestCount) * 100 : 0,
-      config: config.get('llm.gemini')
+      fallbackRate: this.requestCount > 0 ? (this.errorCount / this.requestCount) * 100 : 0,
+      config: config.get('llm.gemini'),
+      fallbackEnabled: config.get('llm.gemini.fallbackEnabled'),
+      enableFallbackMethod: config.get('llm.gemini.enableFallbackMethod')
+    };
+  }
+  
+  async getDiagnostics() {
+    const stats = this.getStats();
+    const networkCheck = await this.checkNetworkConnectivity().catch(() => null);
+    
+    return {
+      ...stats,
+      networkConnectivity: networkCheck,
+      apiKeyConfigured: !!config.getApiKey('GEMINI'),
+      apiKeyValid: config.getApiKey('GEMINI') !== 'your-api-key-here' && !!config.getApiKey('GEMINI'),
+      model: config.get('llm.gemini.model'),
+      commonFallbackReasons: [
+        'Network connectivity issues (check internet connection)',
+        'API key invalid or expired (verify GEMINI_API_KEY)',
+        'Rate limiting (too many requests)',
+        'Request timeout (network too slow)',
+        'API service unavailable (check Google Gemini status)'
+      ]
     };
   }
 
@@ -942,32 +1100,149 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
         
         res.on('end', () => {
           try {
+            // Log raw response for debugging (first 500 chars)
+            const responsePreview = data.substring(0, 500);
+            logger.debug('Alternative request response received', {
+              statusCode: res.statusCode,
+              contentType: res.headers['content-type'],
+              responseLength: data.length,
+              responsePreview
+            });
+
             if (res.statusCode !== 200) {
-              reject(new Error(`HTTP ${res.statusCode}: ${data}`));
+              // Try to parse error response
+              let errorMessage = `HTTP ${res.statusCode}`;
+              try {
+                const errorResponse = JSON.parse(data);
+                if (errorResponse.error) {
+                  errorMessage = `HTTP ${res.statusCode}: ${errorResponse.error.message || JSON.stringify(errorResponse.error)}`;
+                } else {
+                  errorMessage = `HTTP ${res.statusCode}: ${data.substring(0, 200)}`;
+                }
+              } catch {
+                errorMessage = `HTTP ${res.statusCode}: ${data.substring(0, 200)}`;
+              }
+              
+              logger.error('Alternative request failed with non-200 status', {
+                statusCode: res.statusCode,
+                errorMessage,
+                responsePreview: data.substring(0, 500)
+              });
+              
+              reject(new Error(errorMessage));
               return;
             }
             
-            const response = JSON.parse(data);
-            
-            if (!response.candidates || !response.candidates[0] || !response.candidates[0].content) {
-              reject(new Error('Invalid response structure from Gemini API'));
+            // Parse JSON response
+            let response;
+            try {
+              response = JSON.parse(data);
+            } catch (parseError) {
+              logger.error('Failed to parse JSON response', {
+                error: parseError.message,
+                responsePreview: data.substring(0, 500)
+              });
+              reject(new Error(`Failed to parse JSON response: ${parseError.message}`));
+              return;
+            }
+
+            // Check for error in response
+            if (response.error) {
+              const errorMsg = response.error.message || JSON.stringify(response.error);
+              logger.error('Gemini API returned error in response', {
+                error: errorMsg,
+                errorCode: response.error.code,
+                response
+              });
+              reject(new Error(`Gemini API error: ${errorMsg}`));
               return;
             }
             
-            const text = response.candidates[0].content.parts[0].text;
+            // Validate response structure with detailed checks
+            if (!response.candidates) {
+              logger.error('Response missing candidates array', {
+                responseKeys: Object.keys(response),
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Invalid response structure: missing candidates array'));
+              return;
+            }
             
-            if (!text || text.trim().length === 0) {
-              reject(new Error('Empty text content in Gemini response'));
+            if (!Array.isArray(response.candidates) || response.candidates.length === 0) {
+              logger.error('Response candidates is empty or not an array', {
+                candidatesType: typeof response.candidates,
+                candidatesLength: Array.isArray(response.candidates) ? response.candidates.length : 'not an array',
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Invalid response structure: candidates array is empty'));
+              return;
+            }
+            
+            const candidate = response.candidates[0];
+            if (!candidate.content) {
+              logger.error('Response candidate missing content', {
+                candidateKeys: Object.keys(candidate),
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Invalid response structure: candidate missing content'));
+              return;
+            }
+            
+            if (!candidate.content.parts) {
+              logger.error('Response candidate content missing parts', {
+                contentKeys: Object.keys(candidate.content),
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Invalid response structure: content missing parts'));
+              return;
+            }
+            
+            if (!Array.isArray(candidate.content.parts) || candidate.content.parts.length === 0) {
+              logger.error('Response candidate parts is empty or not an array', {
+                partsType: typeof candidate.content.parts,
+                partsLength: Array.isArray(candidate.content.parts) ? candidate.content.parts.length : 'not an array',
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Invalid response structure: parts array is empty'));
+              return;
+            }
+            
+            const firstPart = candidate.content.parts[0];
+            if (!firstPart || !firstPart.text) {
+              logger.error('Response candidate part missing text', {
+                partKeys: firstPart ? Object.keys(firstPart) : 'part is null/undefined',
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Invalid response structure: part missing text'));
+              return;
+            }
+            
+            const text = firstPart.text;
+            
+            if (!text || typeof text !== 'string' || text.trim().length === 0) {
+              logger.error('Response text is empty or invalid', {
+                textType: typeof text,
+                textLength: text ? text.length : 0,
+                responsePreview: JSON.stringify(response).substring(0, 500)
+              });
+              reject(new Error('Empty or invalid text content in Gemini response'));
               return;
             }
             
             logger.info('Alternative request successful', {
               responseLength: text.length,
-              statusCode: res.statusCode
+              statusCode: res.statusCode,
+              hasCandidates: !!response.candidates,
+              candidateCount: response.candidates.length
             });
             
             resolve(text.trim());
           } catch (parseError) {
+            logger.error('Unexpected error parsing alternative request response', {
+              error: parseError.message,
+              stack: parseError.stack,
+              responsePreview: data.substring(0, 500)
+            });
             reject(new Error(`Failed to parse response: ${parseError.message}`));
           }
         });

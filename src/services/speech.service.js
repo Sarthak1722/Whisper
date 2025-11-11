@@ -394,9 +394,11 @@ class SpeechService extends EventEmitter {
       const region = process.env.AZURE_SPEECH_REGION;
       
       if (!subscriptionKey || !region) {
-        const error = 'Azure Speech credentials not found. Please set AZURE_SPEECH_KEY and AZURE_SPEECH_REGION environment variables.';
-        logger.error('Speech service initialization failed', { reason: 'missing_credentials' });
-        this.emit('error', error);
+        const warning = 'Azure Speech credentials not found. Speech recognition will be unavailable. Please set AZURE_SPEECH_KEY and AZURE_SPEECH_REGION environment variables to enable voice features.';
+        logger.warn('Speech service initialization skipped', { reason: 'missing_credentials' });
+        this.emit('status', 'Speech recognition unavailable - credentials not configured');
+        // Don't emit error - just log warning and allow app to continue
+        this.speechConfig = null;
         return;
       }
 
@@ -444,9 +446,10 @@ class SpeechService extends EventEmitter {
   startRecording() {
     try {
       if (!this.speechConfig) {
-        const errorMsg = 'Azure Speech client not initialized';
-        logger.error(errorMsg);
-        this.emit('error', errorMsg);
+        const errorMsg = 'Azure Speech client not initialized. Please configure AZURE_SPEECH_KEY and AZURE_SPEECH_REGION in your .env file.';
+        logger.warn(errorMsg);
+        this.emit('status', 'Speech recognition unavailable - credentials not configured');
+        // Don't emit error - just inform user via status
         return;
       }
 

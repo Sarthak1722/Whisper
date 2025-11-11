@@ -1,4 +1,4 @@
-const { BrowserWindow, screen, desktopCapturer } = require('electron');
+const { BrowserWindow, screen, desktopCapturer, clipboard } = require('electron');
 const path = require('path');
 const logger = require('../core/logger').createServiceLogger('WINDOW');
 const config = require('../core/config');
@@ -19,6 +19,7 @@ class WindowManager {
     this.isInitialized = false;
     this.isInitializing = false;
     this.isRecording = false;
+    this.userExplicitlyHidden = false; // Track if user explicitly hid windows via Command+X
     
     // Add debouncing to prevent excessive operations
     this.lastEnforceTime = 0;
@@ -742,6 +743,140 @@ class WindowManager {
       isDestroyed: win.isDestroyed()
     });
   }
+
+  showOnCurrentDesktopNoFocus(win) {
+    if (!win || win.isDestroyed()) return;
+    
+    if (process.platform === 'darwin') {
+      // More aggressive approach for macOS to prevent space switching
+      
+      // First, ensure the window is hidden
+      win.hide();
+      
+      // Set up the window to appear on all workspaces temporarily
+      win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+      
+      // Enforce highest level always-on-top for macOS using multiple attempts
+      const setMacOSAlwaysOnTop = () => {
+        if (!win.isDestroyed()) {
+          try {
+            // Try screen-saver level first (highest)
+            win.setAlwaysOnTop(true, 'screen-saver', 2);
+          } catch (error) {
+            try {
+              // Fallback to pop-up-menu level
+              win.setAlwaysOnTop(true, 'pop-up-menu', 2);
+            } catch (error2) {
+              try {
+                // Final fallback to floating level
+                win.setAlwaysOnTop(true, 'floating', 2);
+              } catch (error3) {
+                // Absolute fallback
+                win.setAlwaysOnTop(true);
+              }
+            }
+          }
+        }
+      };
+      
+      setMacOSAlwaysOnTop();
+      
+      // Small delay to ensure settings take effect
+      setTimeout(() => {
+        if (!win.isDestroyed()) {
+          // Use showInactive() if available to show window without activating/focusing it
+          // This prevents the window from stealing focus
+          if (typeof win.showInactive === 'function') {
+            win.showInactive();
+          } else {
+            // Fallback for older Electron versions
+            win.show();
+            // Explicitly blur to remove focus if it was gained
+            setTimeout(() => {
+              if (!win.isDestroyed() && win.isFocused()) {
+                win.blur();
+              }
+            }, 10);
+          }
+          
+          // Re-enforce always-on-top after showing
+          setMacOSAlwaysOnTop();
+          
+          // Additional enforcement and focus check
+          setTimeout(() => {
+            if (!win.isDestroyed()) {
+              setMacOSAlwaysOnTop();
+              // Aggressively check and remove focus
+              if (win.isFocused()) {
+                win.blur();
+              }
+              // Also check again after a short delay
+              setTimeout(() => {
+                if (!win.isDestroyed() && win.isFocused()) {
+                  win.blur();
+                }
+              }, 50);
+            }
+          }, 100);
+          
+          // After window is shown, remove from all workspaces to prevent clutter
+          setTimeout(() => {
+            if (!win.isDestroyed()) {
+              win.setVisibleOnAllWorkspaces(false);
+              // Final always-on-top enforcement
+              setMacOSAlwaysOnTop();
+              // Final aggressive check to ensure focus wasn't stolen
+              if (win.isFocused()) {
+                win.blur();
+              }
+              // One more check after a delay
+              setTimeout(() => {
+                if (!win.isDestroyed() && win.isFocused()) {
+                  win.blur();
+                }
+              }, 100);
+            }
+          }, 300);
+        }
+      }, 50);
+    } else {
+      // For non-macOS platforms, simpler approach with enhanced always-on-top
+      win.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
+      win.setAlwaysOnTop(true);
+      
+      // Use showInactive() if available, otherwise show() and blur
+      if (typeof win.showInactive === 'function') {
+        win.showInactive();
+      } else {
+        win.show();
+        // Explicitly blur to remove focus if it was gained
+        setTimeout(() => {
+          if (!win.isDestroyed() && win.isFocused()) {
+            win.blur();
+          }
+        }, 10);
+      }
+      
+      setTimeout(() => {
+        if (!win.isDestroyed()) {
+          win.setVisibleOnAllWorkspaces(false);
+          // Ensure always-on-top is maintained
+          win.setAlwaysOnTop(true);
+          // Ensure focus wasn't stolen
+          if (win.isFocused()) {
+            win.blur();
+          }
+        }
+      }, 500);
+    }
+    
+    logger.debug('Showing window on current desktop without focusing', {
+      platform: process.platform,
+      windowId: win.id,
+      isDestroyed: win.isDestroyed(),
+      usedShowInactive: typeof win.showInactive === 'function'
+    });
+  }
   
   setupWindowEventHandlers() {
     this.windows.forEach((window, type) => {
@@ -947,7 +1082,37 @@ class WindowManager {
   }
 
   toggleInteraction() {
+    const wasInteractive = this.isInteractive;
     this.setInteractive(!this.isInteractive);
+    
+    // Toggle focus based on interaction mode
+    if (!wasInteractive && this.isInteractive) {
+      // Enabling interaction (Option+A) - Focus the windows
+      const mainWindow = this.windows.get('main');
+      const llmWindow = this.windows.get('llmResponse');
+      
+      if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isVisible()) {
+        mainWindow.focus();
+        logger.info('Window focused after enabling interaction (Option+A)');
+      }
+      
+      if (llmWindow && !llmWindow.isDestroyed() && llmWindow.isVisible()) {
+        llmWindow.focus();
+      }
+    } else if (wasInteractive && !this.isInteractive) {
+      // Disabling interaction (Option+A again) - Blur the windows
+      const mainWindow = this.windows.get('main');
+      const llmWindow = this.windows.get('llmResponse');
+      
+      if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isFocused()) {
+        mainWindow.blur();
+        logger.info('Window blurred after disabling interaction (Option+A)');
+      }
+      
+      if (llmWindow && !llmWindow.isDestroyed() && llmWindow.isFocused()) {
+        llmWindow.blur();
+      }
+    }
     
     // Ensure all windows remain always-on-top after interaction mode change
     this.enforceAlwaysOnTopForAllWindows();
@@ -1082,11 +1247,40 @@ class WindowManager {
     logger.debug('showLLMResponse called', {
       isScreenBeingShared: this.isScreenBeingShared,
       contentLength: content.length,
-      skill: metadata.skill
+      skill: metadata.skill,
+      userExplicitlyHidden: this.userExplicitlyHidden
     });
+
+    // Always copy response to clipboard automatically
+    try {
+      clipboard.writeText(content);
+      logger.info('LLM response automatically copied to clipboard', {
+        contentLength: content.length,
+        skill: metadata.skill
+      });
+    } catch (clipboardError) {
+      logger.warn('Failed to copy response to clipboard', {
+        error: clipboardError.message
+      });
+    }
 
     if (this.isScreenBeingShared) {
       logger.warn('LLM response blocked due to screen sharing mode');
+      return;
+    }
+
+    // Check if user explicitly hid the windows - respect their choice
+    if (this.userExplicitlyHidden) {
+      logger.info('LLM response received but windows are explicitly hidden by user - not showing');
+      // Still send the content to the window so it's ready when user shows it
+      const llmWindow = this.windows.get('llmResponse');
+      if (llmWindow && !llmWindow.isDestroyed()) {
+        llmWindow.webContents.send('display-llm-response', {
+          content,
+          metadata,
+          timestamp: new Date().toISOString()
+        });
+      }
       return;
     }
 
@@ -1108,25 +1302,107 @@ class WindowManager {
       timestamp: new Date().toISOString()
     });
     
-    logger.debug('Showing and focusing LLM window');
-    this.showOnCurrentDesktop(llmWindow);
+    logger.debug('Showing LLM window (without focusing)');
+    
+    // Ensure window is not minimized before showing
+    if (llmWindow.isMinimized()) {
+      llmWindow.restore();
+    }
+    
+    // Ensure window is interactive (not click-through) when showing response
+    if (!this.isInteractive) {
+      this.setInteractive(true);
+    }
+    
+    // Show window without focusing (use showOnCurrentDesktopNoFocus)
+    this.showOnCurrentDesktopNoFocus(llmWindow);
     
     // Position bound windows when LLM response is shown
     if (this.bindWindows) {
       this.positionBoundWindows();
     }
+    
+    // Verify window is actually shown after the delay from showOnCurrentDesktopNoFocus
+    setTimeout(() => {
+      if (!llmWindow.isDestroyed()) {
+        const isVisible = llmWindow.isVisible();
+        const isMinimized = llmWindow.isMinimized();
         
-    logger.info('LLM response displayed', {
-      contentLength: content.length,
-      skill: metadata.skill,
-      windowVisible: llmWindow.isVisible(),
-      boundWindows: this.bindWindows
-    });
+        if (!isVisible || isMinimized) {
+          logger.warn('LLM window not visible after showOnCurrentDesktopNoFocus, attempting to show again', {
+            isVisible,
+            isMinimized
+          });
+          
+          // Try showing again with a more direct approach (without focus)
+          if (isMinimized) {
+            llmWindow.restore();
+          }
+          
+          // Force show with always-on-top (no focus)
+          llmWindow.setAlwaysOnTop(true);
+          // Use showInactive() if available, otherwise show() and blur
+          if (typeof llmWindow.showInactive === 'function') {
+            llmWindow.showInactive();
+          } else {
+            llmWindow.show();
+            // Explicitly blur to remove focus if it was gained
+            setTimeout(() => {
+              if (!llmWindow.isDestroyed() && llmWindow.isFocused()) {
+                llmWindow.blur();
+              }
+            }, 10);
+          }
+          
+          // Double-check after a short delay
+          setTimeout(() => {
+            if (!llmWindow.isDestroyed() && !llmWindow.isVisible()) {
+              logger.error('LLM window still not visible after retry, forcing show');
+              if (typeof llmWindow.showInactive === 'function') {
+                llmWindow.showInactive();
+              } else {
+                llmWindow.show();
+                // Explicitly blur to remove focus if it was gained
+                setTimeout(() => {
+                  if (!llmWindow.isDestroyed() && llmWindow.isFocused()) {
+                    llmWindow.blur();
+                  }
+                }, 10);
+              }
+            } else if (!llmWindow.isDestroyed() && llmWindow.isFocused()) {
+              // Ensure focus wasn't stolen
+              llmWindow.blur();
+            }
+          }, 50);
+        }
+        
+        logger.info('LLM response displayed (without focus)', {
+          contentLength: content.length,
+          skill: metadata.skill,
+          windowVisible: llmWindow.isVisible(),
+          windowMinimized: llmWindow.isMinimized(),
+          boundWindows: this.bindWindows,
+          verified: true,
+          copiedToClipboard: true
+        });
+      }
+    }, 150); // Check after showOnCurrentDesktopNoFocus's delay (50ms) plus buffer for macOS operations
   }
 
   showLLMLoading() {
     if (this.isScreenBeingShared) {
       logger.warn('LLM loading blocked due to screen sharing mode');
+      return;
+    }
+
+    // Check if user explicitly hid the windows - respect their choice
+    if (this.userExplicitlyHidden) {
+      logger.debug('LLM loading requested but windows are explicitly hidden by user - not showing');
+      // Still send loading state to window so it's ready when user shows it
+      const llmWindow = this.windows.get('llmResponse');
+      if (llmWindow && !llmWindow.isDestroyed()) {
+        llmWindow.webContents.send('show-loading');
+      }
       return;
     }
 
@@ -1172,7 +1448,9 @@ class WindowManager {
       if (mainWindow && !mainWindow.isDestroyed()) {
         mainWindow.hide();
       }
-      logger.info('LLM response and main windows hidden via toggle');
+      // Mark that user explicitly hid the windows
+      this.userExplicitlyHidden = true;
+      logger.info('LLM response and main windows hidden via toggle - user explicitly hidden flag set');
       return false;
     }
 
@@ -1181,19 +1459,36 @@ class WindowManager {
       return false;
     }
 
+    // User is showing windows, clear the explicit hide flag
+    this.userExplicitlyHidden = false;
+
+    // Show windows WITHOUT focusing (Command+X should not steal focus)
+    // Note: We don't change interaction mode here - user controls that with Option+A
     if (llmWindow && !llmWindow.isDestroyed()) {
-      this.showOnCurrentDesktop(llmWindow);
+      this.showOnCurrentDesktopNoFocus(llmWindow);
+      // Explicitly blur if it somehow got focus
+      setTimeout(() => {
+        if (!llmWindow.isDestroyed() && llmWindow.isFocused()) {
+          llmWindow.blur();
+        }
+      }, 50);
     }
 
     if (mainWindow && !mainWindow.isDestroyed()) {
-      this.showOnCurrentDesktop(mainWindow);
+      this.showOnCurrentDesktopNoFocus(mainWindow);
+      // Explicitly blur if it somehow got focus
+      setTimeout(() => {
+        if (!mainWindow.isDestroyed() && mainWindow.isFocused()) {
+          mainWindow.blur();
+        }
+      }, 50);
     }
 
     if (this.bindWindows && llmWindow && !llmWindow.isDestroyed()) {
       this.positionBoundWindows();
     }
 
-    logger.info('LLM response and main windows shown via toggle');
+    logger.info('LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared');
     return true;
   }
 
