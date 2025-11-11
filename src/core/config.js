@@ -42,8 +42,8 @@ class ConfigManager {
         gemini: {
           model: 'gemini-2.5-pro',
           apiVersion: 'v1beta',
-          maxRetries: 3,
-          timeout: 30000,
+          maxRetries: 5, // Increased from 3 to 5 for better reliability
+          timeout: 45000, // Increased from 30s to 45s for slow networks
           fallbackEnabled: true,
           enableFallbackMethod: true
         }

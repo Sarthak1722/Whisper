@@ -421,13 +421,27 @@ class ApplicationController {
       try {
         const connectivity = await llmService.checkNetworkConnectivity();
         const apiTest = await llmService.testConnection();
+        const diagnostics = await llmService.getDiagnostics();
         
         return {
           success: true,
           connectivity,
           apiTest,
+          diagnostics,
           timestamp: new Date().toISOString()
         };
+      } catch (error) {
+        return {
+          success: false,
+          error: error.message,
+          timestamp: new Date().toISOString()
+        };
+      }
+    });
+
+    ipcMain.handle("get-llm-diagnostics", async () => {
+      try {
+        return await llmService.getDiagnostics();
       } catch (error) {
         return {
           success: false,
