@@ -2140,3 +2140,1836 @@
 {
   "pid": 23542
 }
+2025-11-12 04:22:20.985 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 46519,
+  "model": "gemini-2.5-pro"
+}
+2025-11-12 04:22:21.002 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 46519,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-12 04:22:21.399 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 46519,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-12 04:22:21.773 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 46519
+}
+2025-11-12 04:22:25.540 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 46519
+}
+2025-11-12 04:22:25.544 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 46519,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 628,
+    "y": 605
+  }
+}
+2025-11-12 04:22:25.546 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 46519
+}
+2025-11-12 04:22:25.553 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 46519
+}
+2025-11-12 04:22:25.734 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 46519,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-12 04:22:25.734 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 46519,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 04:22:25.735 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 46519,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-12 04:22:27.103 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:22:53.259 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:22:54.230 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:22:56.849 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:22:57.530 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:22:58.553 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:22:59.246 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:30.336 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:31.360 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:31.936 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:32.120 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:33.335 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:34.097 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:35.430 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:36.460 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:36.862 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:37.148 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:38.261 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:38.951 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:39.231 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:39.531 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:40.610 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:40.990 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:41.404 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:42.184 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:42.509 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:43.580 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:46.390 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:47.050 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:48.216 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:48.805 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:49.144 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:49.350 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:49.570 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:23:49.768 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:23:52.268 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 46519
+}
+2025-11-12 04:23:53.986 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:24:10.438 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 46519,
+  "originalLength": 1250,
+  "cleanedLength": 1233,
+  "wordsExtracted": 241
+}
+2025-11-12 04:24:10.439 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 46519,
+  "duration": "18171ms",
+  "textLength": 1233,
+  "hasContent": true
+}
+2025-11-12 04:24:10.443 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 46519,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-12 04:24:10.446 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 46519,
+  "activeSkill": "dsa",
+  "textLength": 1233,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-12 04:24:10.690 [32MINFO[39M [LLM] Attempting alternative HTTPS transport
+{
+  "pid": 46519,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-12 04:24:10.691 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 46519,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta",
+  "maxRetries": 3
+}
+2025-11-12 04:24:20.732 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:24:45.536 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:24:47.630 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 46519,
+  "responseLength": 2504,
+  "statusCode": 200,
+  "hasCandidates": true,
+  "candidateCount": 1
+}
+2025-11-12 04:24:47.631 [32MINFO[39M [LLM] Alternative HTTPS transport succeeded
+{
+  "pid": 46519,
+  "attempt": 1,
+  "responseLength": 2504
+}
+2025-11-12 04:24:47.631 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 46519,
+  "duration": "37185ms",
+  "activeSkill": "dsa",
+  "textLength": 1233,
+  "responseLength": 2504,
+  "programmingLanguage": "cpp",
+  "requestId": 1,
+  "method": "standard_sdk"
+}
+2025-11-12 04:24:47.632 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 46519,
+  "responseLength": 2504,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 37185,
+  "responsePreview": "```cpp\n#include <string>\n#include <vector>\n\nclass Solution {\npublic:\n    bool isMatch(std::string s, std::string p) {\n        int m = s.length();\n        int n = p.length();\n\n        // dp[i][j] will ..."
+}
+2025-11-12 04:24:47.638 [32MINFO[39M [WINDOW] LLM response automatically copied to clipboard
+{
+  "pid": 46519,
+  "contentLength": 2504,
+  "skill": "dsa"
+}
+2025-11-12 04:24:47.640 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 46519,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 04:24:47.647 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 46519,
+  "responseLength": 2504,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "```cpp\n#include <string>\n#include <vector>\n\nclass Solution {\npublic:\n    bool isMatch(std::string s,..."
+}
+2025-11-12 04:24:47.650 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 46519,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": true,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "```cpp\n#include <string>\n#include <vector>\n\nclass ..."
+}
+2025-11-12 04:24:47.829 [32MINFO[39M [WINDOW] LLM response displayed (without focus)
+{
+  "pid": 46519,
+  "contentLength": 2504,
+  "skill": "dsa",
+  "windowVisible": true,
+  "windowMinimized": false,
+  "boundWindows": true,
+  "verified": true,
+  "copiedToClipboard": true
+}
+2025-11-12 04:24:48.739 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:25:12.650 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 46519
+}
+2025-11-12 04:25:32.128 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 46519,
+  "originalLength": 1188,
+  "cleanedLength": 1177,
+  "wordsExtracted": 221
+}
+2025-11-12 04:25:32.129 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 46519,
+  "duration": "19479ms",
+  "textLength": 1177,
+  "hasContent": true
+}
+2025-11-12 04:25:32.130 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 46519,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-12 04:25:32.131 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 46519,
+  "activeSkill": "dsa",
+  "textLength": 1177,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 2
+}
+2025-11-12 04:25:32.268 [32MINFO[39M [LLM] Attempting alternative HTTPS transport
+{
+  "pid": 46519,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-12 04:25:32.268 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 46519,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta",
+  "maxRetries": 3
+}
+2025-11-12 04:25:51.524 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 46519,
+  "responseLength": 1805,
+  "statusCode": 200,
+  "hasCandidates": true,
+  "candidateCount": 1
+}
+2025-11-12 04:25:51.525 [32MINFO[39M [LLM] Alternative HTTPS transport succeeded
+{
+  "pid": 46519,
+  "attempt": 1,
+  "responseLength": 1805
+}
+2025-11-12 04:25:51.525 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 46519,
+  "duration": "19394ms",
+  "activeSkill": "dsa",
+  "textLength": 1177,
+  "responseLength": 1805,
+  "programmingLanguage": "cpp",
+  "requestId": 2,
+  "method": "standard_sdk"
+}
+2025-11-12 04:25:51.526 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 46519,
+  "responseLength": 1805,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 19395,
+  "responsePreview": "```cpp\n#include <vector>\n#include <queue>\n\n// Definition for singly-linked list.\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode() : val(0), next(nullptr) {}\n    ListNode(int x) : val(..."
+}
+2025-11-12 04:25:51.528 [32MINFO[39M [WINDOW] LLM response automatically copied to clipboard
+{
+  "pid": 46519,
+  "contentLength": 1805,
+  "skill": "dsa"
+}
+2025-11-12 04:25:51.528 [32MINFO[39M [WINDOW] LLM response received but windows are explicitly hidden by user - not showing
+{
+  "pid": 46519
+}
+2025-11-12 04:25:51.529 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 46519,
+  "responseLength": 1805,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "```cpp\n#include <vector>\n#include <queue>\n\n// Definition for singly-linked list.\nstruct ListNode {\n ..."
+}
+2025-11-12 04:25:51.529 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 46519,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "```cpp\n#include <vector>\n#include <queue>\n\n// Defi..."
+}
+2025-11-12 04:26:47.750 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:26:49.987 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:27:14.885 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:27:16.188 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:28:19.576 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:28:20.561 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:28:21.331 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 46519
+}
+2025-11-12 04:28:22.447 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 46519
+}
+2025-11-12 04:31:21.621 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 724,
+  "model": "gemini-2.5-pro"
+}
+2025-11-12 04:31:21.705 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 724,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-12 04:31:23.691 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 724,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-12 04:31:24.221 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 724
+}
+2025-11-12 04:31:38.274 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 724
+}
+2025-11-12 04:31:38.276 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 724,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 1073,
+    "y": 495
+  }
+}
+2025-11-12 04:31:38.281 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 724
+}
+2025-11-12 04:31:38.281 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 724
+}
+2025-11-12 04:31:38.988 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 724,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-12 04:31:38.992 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 724,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 04:31:38.992 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 724,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-12 04:31:47.031 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 724
+}
+2025-11-12 04:31:47.729 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 724
+}
+2025-11-12 04:31:48.610 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 724
+}
+2025-11-12 04:32:19.743 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 724
+}
+2025-11-12 04:32:20.594 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 724
+}
+2025-11-12 04:32:22.414 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 724
+}
+2025-11-12 04:32:44.858 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 724,
+  "originalLength": 1252,
+  "cleanedLength": 1232,
+  "wordsExtracted": 227
+}
+2025-11-12 04:32:44.860 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 724,
+  "duration": "22446ms",
+  "textLength": 1232,
+  "hasContent": true
+}
+2025-11-12 04:32:44.869 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 724,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-12 04:32:44.873 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 724,
+  "activeSkill": "dsa",
+  "textLength": 1232,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-12 04:32:48.251 [32MINFO[39M [LLM] Attempting alternative HTTPS transport
+{
+  "pid": 724,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-12 04:32:48.252 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 724,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta",
+  "maxRetries": 3
+}
+2025-11-12 04:33:08.883 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 724,
+  "responseLength": 1363,
+  "statusCode": 200,
+  "hasCandidates": true,
+  "candidateCount": 1
+}
+2025-11-12 04:33:08.884 [32MINFO[39M [LLM] Alternative HTTPS transport succeeded
+{
+  "pid": 724,
+  "attempt": 1,
+  "responseLength": 1363
+}
+2025-11-12 04:33:08.885 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 724,
+  "duration": "24012ms",
+  "activeSkill": "dsa",
+  "textLength": 1232,
+  "responseLength": 1363,
+  "programmingLanguage": "cpp",
+  "requestId": 1,
+  "method": "standard_sdk"
+}
+2025-11-12 04:33:08.885 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 724,
+  "responseLength": 1363,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 24012,
+  "responsePreview": "```cpp\n/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNode *next;\n *     ListNode() : val(0), next(nullptr) {}\n *     ListNode(int x) : val(x), next(nullptr)..."
+}
+2025-11-12 04:33:08.906 [32MINFO[39M [WINDOW] LLM response automatically copied to clipboard
+{
+  "pid": 724,
+  "contentLength": 1363,
+  "skill": "dsa"
+}
+2025-11-12 04:33:08.906 [32MINFO[39M [WINDOW] LLM response received but windows are explicitly hidden by user - not showing
+{
+  "pid": 724
+}
+2025-11-12 04:33:08.907 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 724,
+  "responseLength": 1363,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "```cpp\n/**\n * Definition for singly-linked list.\n * struct ListNode {\n *     int val;\n *     ListNod..."
+}
+2025-11-12 04:33:08.909 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 724,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "```cpp\n/**\n * Definition for singly-linked list.\n ..."
+}
+2025-11-12 04:34:47.878 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 724
+}
+2025-11-12 04:34:49.381 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 724
+}
+2025-11-12 04:42:09.236 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 3221,
+  "model": "gemini-2.5-pro"
+}
+2025-11-12 04:42:09.255 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 3221,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-12 04:42:09.662 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 3221,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-12 04:42:10.072 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 3221
+}
+2025-11-12 04:42:13.710 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 3221
+}
+2025-11-12 04:42:13.718 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 3221,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 406,
+    "y": 314
+  }
+}
+2025-11-12 04:42:13.721 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 3221
+}
+2025-11-12 04:42:13.727 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 3221
+}
+2025-11-12 04:42:13.899 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 3221,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-12 04:42:13.901 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 3221,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 04:42:13.902 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 3221,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-12 04:42:22.885 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:42:39.777 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 3221
+}
+2025-11-12 04:42:40.574 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:43:19.641 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 3221
+}
+2025-11-12 04:43:21.488 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:45:30.403 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 3221
+}
+2025-11-12 04:45:31.308 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:45:38.518 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 3221
+}
+2025-11-12 04:45:39.017 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:45:41.382 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 3221
+}
+2025-11-12 04:45:42.807 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:45:44.504 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 3221
+}
+2025-11-12 04:45:45.427 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 3221
+}
+2025-11-12 04:45:48.634 [32MINFO[39M [OCR] Starting screenshot capture and OCR processing
+{
+  "pid": 3221
+}
+2025-11-12 04:46:04.899 [32MINFO[39M [OCR] OCR text extraction completed
+{
+  "pid": 3221,
+  "originalLength": 932,
+  "cleanedLength": 913,
+  "wordsExtracted": 178
+}
+2025-11-12 04:46:04.900 [32MINFO[39M [OCR] Performance: OCR processing completed
+{
+  "pid": 3221,
+  "duration": "16266ms",
+  "textLength": 913,
+  "hasContent": true
+}
+2025-11-12 04:46:04.908 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 3221,
+  "channel": "ocr-completed",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "text",
+    "metadata"
+  ],
+  "dataPreview": "No response"
+}
+2025-11-12 04:46:04.910 [32MINFO[39M [LLM] Processing text with LLM
+{
+  "pid": 3221,
+  "activeSkill": "dsa",
+  "textLength": 913,
+  "hasSessionMemory": true,
+  "programmingLanguage": "cpp",
+  "requestId": 1
+}
+2025-11-12 04:46:05.228 [32MINFO[39M [LLM] Attempting alternative HTTPS transport
+{
+  "pid": 3221,
+  "attempt": 1,
+  "transport": "https_direct"
+}
+2025-11-12 04:46:05.229 [32MINFO[39M [LLM] Using alternative HTTPS request method
+{
+  "pid": 3221,
+  "model": "gemini-2.5-pro",
+  "apiVersion": "v1beta",
+  "maxRetries": 3
+}
+2025-11-12 04:46:36.583 [32MINFO[39M [LLM] Alternative request successful
+{
+  "pid": 3221,
+  "responseLength": 708,
+  "statusCode": 200,
+  "hasCandidates": true,
+  "candidateCount": 1
+}
+2025-11-12 04:46:36.585 [32MINFO[39M [LLM] Alternative HTTPS transport succeeded
+{
+  "pid": 3221,
+  "attempt": 1,
+  "responseLength": 708
+}
+2025-11-12 04:46:36.586 [32MINFO[39M [LLM] Performance: LLM text processing completed
+{
+  "pid": 3221,
+  "duration": "31675ms",
+  "activeSkill": "dsa",
+  "textLength": 913,
+  "responseLength": 708,
+  "programmingLanguage": "cpp",
+  "requestId": 1,
+  "method": "standard_sdk"
+}
+2025-11-12 04:46:36.586 [32MINFO[39M [MAIN] LLM processing completed, showing response
+{
+  "pid": 3221,
+  "responseLength": 708,
+  "skill": "dsa",
+  "programmingLanguage": "cpp",
+  "processingTime": 31676,
+  "responsePreview": "```cpp\nclass Solution {\npublic:\n    string getPermutation(int n, int k) {\n        vector<int> numbers;\n        int fact = 1;\n        for (int i = 1; i <= n; i++) {\n            numbers.push_back(i);\n  ..."
+}
+2025-11-12 04:46:36.590 [32MINFO[39M [WINDOW] LLM response automatically copied to clipboard
+{
+  "pid": 3221,
+  "contentLength": 708,
+  "skill": "dsa"
+}
+2025-11-12 04:46:36.590 [32MINFO[39M [WINDOW] LLM response received but windows are explicitly hidden by user - not showing
+{
+  "pid": 3221
+}
+2025-11-12 04:46:36.591 [32MINFO[39M [MAIN] Broadcasting LLM success to all windows
+{
+  "pid": 3221,
+  "responseLength": 708,
+  "skill": "dsa",
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "responsePreview": "```cpp\nclass Solution {\npublic:\n    string getPermutation(int n, int k) {\n        vector<int> number..."
+}
+2025-11-12 04:46:36.592 [32MINFO[39M [WINDOW] Broadcast sent to all windows
+{
+  "pid": 3221,
+  "channel": "llm-response",
+  "windowCount": 4,
+  "windowStates": {
+    "main": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "chat": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "llmResponse": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    },
+    "settings": {
+      "isVisible": false,
+      "isDestroyed": false,
+      "hasWebContents": true
+    }
+  },
+  "dataKeys": [
+    "response",
+    "metadata",
+    "skill"
+  ],
+  "dataPreview": "```cpp\nclass Solution {\npublic:\n    string getPerm..."
+}
+2025-11-12 05:13:33.930 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 6092,
+  "model": "gemini-2.5-pro"
+}
+2025-11-12 05:13:33.944 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 6092,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-12 05:13:34.277 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 6092,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-12 05:13:34.620 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 6092
+}
+2025-11-12 05:13:37.587 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 6092
+}
+2025-11-12 05:13:37.588 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 6092,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 339,
+    "y": 275
+  }
+}
+2025-11-12 05:13:37.589 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 6092
+}
+2025-11-12 05:13:37.589 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 6092
+}
+2025-11-12 05:13:37.699 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6092,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-12 05:13:37.700 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6092,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:13:37.700 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 6092,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-12 05:13:39.187 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6092
+}
+2025-11-12 05:13:48.169 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6092
+}
+2025-11-12 05:13:50.438 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6092
+}
+2025-11-12 05:13:51.301 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6092
+}
+2025-11-12 05:13:52.112 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6092,
+  "activeWindow": "main",
+  "windowCount": 4
+}
+2025-11-12 05:13:57.234 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6092
+}
+2025-11-12 05:14:07.800 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6092,
+  "activeWindow": "settings",
+  "windowCount": 4
+}
+2025-11-12 05:14:10.748 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6092,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:14:10.767 [32MINFO[39M [WINDOW] Window made focusable and focused after enabling interaction (Option+A)
+{
+  "pid": 6092
+}
+2025-11-12 05:14:12.613 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6092,
+  "appName": "System Settings ",
+  "processTitle": "System Settings ",
+  "appGetName": "System Settings ",
+  "iconKey": "settings",
+  "platform": "darwin"
+}
+2025-11-12 05:14:12.613 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6092,
+  "iconKey": "settings",
+  "appName": "System Settings ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/settings.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:14:12.613 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6092,
+  "selectedIcon": "settings"
+}
+2025-11-12 05:14:14.006 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6092
+}
+2025-11-12 05:14:45.016 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6092
+}
+2025-11-12 05:14:45.576 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6092
+}
+2025-11-12 05:14:46.315 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6092
+}
+2025-11-12 05:14:47.216 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6092
+}
+2025-11-12 05:16:16.033 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6092
+}
+2025-11-12 05:16:17.207 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6092
+}
+2025-11-12 05:18:13.719 [32MINFO[39M [LLM] Gemini AI client initialized successfully
+{
+  "pid": 6586,
+  "model": "gemini-2.5-pro"
+}
+2025-11-12 05:18:13.734 [32MINFO[39M [SESSION] Session memory initialized with skill prompts
+{
+  "pid": 6586,
+  "skillCount": 9,
+  "totalEvents": 9
+}
+2025-11-12 05:18:14.029 [32MINFO[39M [MAIN] Application starting
+{
+  "pid": 6586,
+  "version": "1.0.0",
+  "environment": "production",
+  "platform": "darwin"
+}
+2025-11-12 05:18:14.395 [32MINFO[39M [WINDOW] Initializing application windows
+{
+  "pid": 6586
+}
+2025-11-12 05:18:17.261 [32MINFO[39M [WINDOW] Desktop tracking initialized
+{
+  "pid": 6586
+}
+2025-11-12 05:18:17.261 [32MINFO[39M [WINDOW] Screen and desktop tracking initialized
+{
+  "pid": 6586,
+  "currentDisplay": 1,
+  "cursorPosition": {
+    "x": 643,
+    "y": 645
+  }
+}
+2025-11-12 05:18:17.262 [32MINFO[39M [WINDOW] Screen sharing detection initialized
+{
+  "pid": 6586
+}
+2025-11-12 05:18:17.265 [32MINFO[39M [WINDOW] All windows initialized successfully
+{
+  "pid": 6586
+}
+2025-11-12 05:18:17.431 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-12 05:18:17.432 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:18:17.433 [32MINFO[39M [MAIN] Application initialized successfully
+{
+  "pid": 6586,
+  "windowCount": 4,
+  "currentDesktop": "detected"
+}
+2025-11-12 05:18:25.603 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6586
+}
+2025-11-12 05:18:28.728 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6586,
+  "activeWindow": "main",
+  "windowCount": 4
+}
+2025-11-12 05:18:31.563 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:18:31.645 [32MINFO[39M [WINDOW] Window made focusable and focused after enabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:18:37.641 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "System Settings ",
+  "processTitle": "System Settings ",
+  "appGetName": "System Settings ",
+  "iconKey": "settings",
+  "platform": "darwin"
+}
+2025-11-12 05:18:37.642 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "settings",
+  "appName": "System Settings ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/settings.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:18:37.643 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "settings"
+}
+2025-11-12 05:18:38.620 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": false,
+  "clickThrough": true,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:18:38.620 [32MINFO[39M [WINDOW] Window blurred and made non-focusable after disabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:18:43.798 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6586
+}
+2025-11-12 05:18:46.119 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:18:47.822 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:18:48.352 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:18:49.709 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:18:50.551 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:18:51.782 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:18:53.078 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6586,
+  "activeWindow": "settings",
+  "windowCount": 4
+}
+2025-11-12 05:18:57.011 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:18:57.028 [32MINFO[39M [WINDOW] Window made focusable and focused after enabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:18:59.223 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "Activity Monitor ",
+  "processTitle": "Activity Monitor ",
+  "appGetName": "Activity Monitor ",
+  "iconKey": "activity",
+  "platform": "darwin"
+}
+2025-11-12 05:18:59.224 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "activity",
+  "appName": "Activity Monitor ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/activity.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:18:59.224 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "activity"
+}
+2025-11-12 05:19:00.255 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "System Settings ",
+  "processTitle": "System Settings ",
+  "appGetName": "System Settings ",
+  "iconKey": "settings",
+  "platform": "darwin"
+}
+2025-11-12 05:19:00.256 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "settings",
+  "appName": "System Settings ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/settings.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:19:00.256 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "settings"
+}
+2025-11-12 05:19:04.775 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6586
+}
+2025-11-12 05:19:07.832 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6586,
+  "activeWindow": "main",
+  "windowCount": 4
+}
+2025-11-12 05:19:11.279 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": false,
+  "clickThrough": true,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:19:11.280 [32MINFO[39M [WINDOW] Window blurred and made non-focusable after disabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:19:16.416 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:19:16.468 [32MINFO[39M [WINDOW] Window made focusable and focused after enabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:19:17.793 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "Activity Monitor ",
+  "processTitle": "Activity Monitor ",
+  "appGetName": "Activity Monitor ",
+  "iconKey": "activity",
+  "platform": "darwin"
+}
+2025-11-12 05:19:17.793 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "activity",
+  "appName": "Activity Monitor ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/activity.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:19:17.794 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "activity"
+}
+2025-11-12 05:19:18.722 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "System Settings ",
+  "processTitle": "System Settings ",
+  "appGetName": "System Settings ",
+  "iconKey": "settings",
+  "platform": "darwin"
+}
+2025-11-12 05:19:18.723 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "settings",
+  "appName": "System Settings ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/settings.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:19:18.724 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "settings"
+}
+2025-11-12 05:19:19.768 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": false,
+  "clickThrough": true,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:19:19.769 [32MINFO[39M [WINDOW] Window blurred and made non-focusable after disabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:19:21.442 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6586
+}
+2025-11-12 05:19:26.031 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:19:27.723 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:19:29.132 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:19:29.744 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:19:32.506 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6586,
+  "activeWindow": "settings",
+  "windowCount": 4
+}
+2025-11-12 05:19:36.374 [32MINFO[39M [WINDOW] Window interaction mode changed
+{
+  "pid": 6586,
+  "interactive": true,
+  "clickThrough": false,
+  "affectedWindows": [
+    "main",
+    "chat",
+    "llmResponse",
+    "settings"
+  ]
+}
+2025-11-12 05:19:36.485 [32MINFO[39M [WINDOW] Window made focusable and focused after enabling interaction (Option+A)
+{
+  "pid": 6586
+}
+2025-11-12 05:19:37.912 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "Activity Monitor ",
+  "processTitle": "Activity Monitor ",
+  "appGetName": "Activity Monitor ",
+  "iconKey": "activity",
+  "platform": "darwin"
+}
+2025-11-12 05:19:37.913 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "activity",
+  "appName": "Activity Monitor ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/activity.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:19:37.913 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "activity"
+}
+2025-11-12 05:19:39.863 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "Terminal ",
+  "processTitle": "Terminal ",
+  "appGetName": "Terminal ",
+  "iconKey": "terminal",
+  "platform": "darwin"
+}
+2025-11-12 05:19:39.864 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "terminal",
+  "appName": "Terminal ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/terminal.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:19:39.864 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "terminal"
+}
+2025-11-12 05:19:41.090 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "System Settings ",
+  "processTitle": "System Settings ",
+  "appGetName": "System Settings ",
+  "iconKey": "settings",
+  "platform": "darwin"
+}
+2025-11-12 05:19:41.090 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "settings",
+  "appName": "System Settings ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/settings.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:19:41.091 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "settings"
+}
+2025-11-12 05:19:46.538 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6586
+}
+2025-11-12 05:19:53.567 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:19:55.676 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:19:59.847 [32MINFO[39M [WINDOW] All windows shown on current desktop
+{
+  "pid": 6586,
+  "activeWindow": "settings",
+  "windowCount": 4
+}
+2025-11-12 05:20:03.278 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "Activity Monitor ",
+  "processTitle": "Activity Monitor ",
+  "appGetName": "Activity Monitor ",
+  "iconKey": "activity",
+  "platform": "darwin"
+}
+2025-11-12 05:20:03.278 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "activity",
+  "appName": "Activity Monitor ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/activity.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:20:03.278 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "activity"
+}
+2025-11-12 05:20:04.180 [32MINFO[39M [MAIN] App name updated for stealth mode
+{
+  "pid": 6586,
+  "appName": "System Settings ",
+  "processTitle": "System Settings ",
+  "appGetName": "System Settings ",
+  "iconKey": "settings",
+  "platform": "darwin"
+}
+2025-11-12 05:20:04.181 [32MINFO[39M [MAIN] App icon and name updated successfully
+{
+  "pid": 6586,
+  "iconKey": "settings",
+  "appName": "System Settings ",
+  "iconPath": "/Users/sarthak/Study/Whisper/assests/icons/settings.png",
+  "platform": "darwin",
+  "fileExists": true
+}
+2025-11-12 05:20:04.181 [32MINFO[39M [MAIN] Settings saved successfully
+{
+  "pid": 6586,
+  "selectedIcon": "settings"
+}
+2025-11-12 05:20:05.974 [32MINFO[39M [WINDOW] All windows hidden
+{
+  "pid": 6586
+}
+2025-11-12 05:20:14.819 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:20:18.378 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}
+2025-11-12 05:20:34.697 [32MINFO[39M [WINDOW] LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared
+{
+  "pid": 6586
+}
+2025-11-12 05:20:36.080 [32MINFO[39M [WINDOW] LLM response and main windows hidden via toggle - user explicitly hidden flag set
+{
+  "pid": 6586
+}

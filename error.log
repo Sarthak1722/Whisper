@@ -290,3 +290,112 @@
   "attempt": 2,
   "transport": "https_direct"
 }
+2025-11-12 04:22:20.969 [33MWARN[39M [SPEECH] Speech service initialization skipped
+{
+  "pid": 46519,
+  "reason": "missing_credentials"
+}
+2025-11-12 04:24:10.689 [33MWARN[39M [LLM] Network error detected
+{
+  "pid": 46519,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0"
+}
+2025-11-12 04:24:10.690 [33MWARN[39M [LLM] Gemini API attempt 1/5 failed
+{
+  "pid": 46519,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "isRetryable": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 4
+}
+2025-11-12 04:25:32.267 [33MWARN[39M [LLM] Network error detected
+{
+  "pid": 46519,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0"
+}
+2025-11-12 04:25:32.268 [33MWARN[39M [LLM] Gemini API attempt 1/5 failed
+{
+  "pid": 46519,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "isRetryable": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 4
+}
+2025-11-12 04:31:21.573 [33MWARN[39M [SPEECH] Speech service initialization skipped
+{
+  "pid": 724,
+  "reason": "missing_credentials"
+}
+2025-11-12 04:32:48.250 [33MWARN[39M [LLM] Network error detected
+{
+  "pid": 724,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0"
+}
+2025-11-12 04:32:48.251 [33MWARN[39M [LLM] Gemini API attempt 1/5 failed
+{
+  "pid": 724,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "isRetryable": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 4
+}
+2025-11-12 04:42:09.226 [33MWARN[39M [SPEECH] Speech service initialization skipped
+{
+  "pid": 3221,
+  "reason": "missing_credentials"
+}
+2025-11-12 04:46:05.227 [33MWARN[39M [LLM] Network error detected
+{
+  "pid": 3221,
+  "attempt": 1,
+  "errorMessage": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorName": "Error",
+  "nodeEnv": "production",
+  "electronVersion": "29.4.6",
+  "chromeVersion": "122.0.6261.156",
+  "nodeVersion": "20.9.0"
+}
+2025-11-12 04:46:05.228 [33MWARN[39M [LLM] Gemini API attempt 1/5 failed
+{
+  "pid": 3221,
+  "error": "[GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent: fetch failed",
+  "errorType": "NETWORK_ERROR",
+  "isNetworkError": true,
+  "isRetryable": true,
+  "suggestedAction": "Check internet connection and firewall settings",
+  "remainingAttempts": 4
+}
+2025-11-12 05:13:33.912 [33MWARN[39M [SPEECH] Speech service initialization skipped
+{
+  "pid": 6092,
+  "reason": "missing_credentials"
+}
+2025-11-12 05:18:13.704 [33MWARN[39M [SPEECH] Speech service initialization skipped
+{
+  "pid": 6586,
+  "reason": "missing_credentials"
+}
