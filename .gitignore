@@ -3,3 +3,6 @@ node_modules
 eng.traineddata
 dist/
 .DS_Store
+*.log
+output.log
+error.log
