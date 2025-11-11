@@ -63,16 +63,33 @@ class LLMService {
       
       // Try standard method first
       let response;
+      let usedAlternativeMethod = false;
       try {
         response = await this.executeRequest(geminiRequest);
       } catch (error) {
         // If fetch failed, try alternative method
         if (error.message.includes('fetch failed') && config.get('llm.gemini.enableFallbackMethod')) {
-          logger.warn('Standard request failed, trying alternative method', {
+          logger.info('Standard SDK request failed, switching to alternative HTTPS method', {
             error: error.message,
-            requestId: this.requestCount
+            requestId: this.requestCount,
+            note: 'This is normal - alternative method will be used automatically'
           });
-          response = await this.executeAlternativeRequest(geminiRequest);
+          try {
+            response = await this.executeAlternativeRequest(geminiRequest);
+            usedAlternativeMethod = true;
+            logger.info('✅ Request succeeded via alternative HTTPS method', {
+              requestId: this.requestCount,
+              responseLength: response.length,
+              method: 'alternative_https'
+            });
+          } catch (altError) {
+            logger.error('Both standard and alternative methods failed', {
+              standardError: error.message,
+              alternativeError: altError.message,
+              requestId: this.requestCount
+            });
+            throw altError;
+          }
         } else {
           throw error;
         }
@@ -83,7 +100,8 @@ class LLMService {
         textLength: text.length,
         responseLength: response.length,
         programmingLanguage: programmingLanguage || 'not specified',
-        requestId: this.requestCount
+        requestId: this.requestCount,
+        method: usedAlternativeMethod ? 'alternative_https' : 'standard_sdk'
       });
 
       return {
@@ -93,7 +111,8 @@ class LLMService {
           programmingLanguage,
           processingTime: Date.now() - startTime,
           requestId: this.requestCount,
-          usedFallback: false
+          usedFallback: false,
+          usedAlternativeMethod: usedAlternativeMethod
         }
       };
     } catch (error) {
@@ -163,16 +182,33 @@ class LLMService {
       
       // Try standard method first
       let response;
+      let usedAlternativeMethod = false;
       try {
         response = await this.executeRequest(geminiRequest);
       } catch (error) {
         // If fetch failed, try alternative method
         if (error.message.includes('fetch failed') && config.get('llm.gemini.enableFallbackMethod')) {
-          logger.warn('Standard request failed, trying alternative method', {
+          logger.info('Standard SDK request failed, switching to alternative HTTPS method', {
             error: error.message,
-            requestId: this.requestCount
+            requestId: this.requestCount,
+            note: 'This is normal - alternative method will be used automatically'
           });
-          response = await this.executeAlternativeRequest(geminiRequest);
+          try {
+            response = await this.executeAlternativeRequest(geminiRequest);
+            usedAlternativeMethod = true;
+            logger.info('✅ Request succeeded via alternative HTTPS method', {
+              requestId: this.requestCount,
+              responseLength: response.length,
+              method: 'alternative_https'
+            });
+          } catch (altError) {
+            logger.error('Both standard and alternative methods failed', {
+              standardError: error.message,
+              alternativeError: altError.message,
+              requestId: this.requestCount
+            });
+            throw altError;
+          }
         } else {
           throw error;
         }
@@ -254,7 +290,7 @@ class LLMService {
       contents: [],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2048,
+        maxOutputTokens: 8192, // Increased from 2048 to 8192 for longer responses
         topK: 40,
         topP: 0.95
       }
@@ -287,7 +323,7 @@ class LLMService {
       contents: [],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2048,
+        maxOutputTokens: 8192, // Increased from 2048 to 8192 for longer responses
         topK: 40,
         topP: 0.95
       }
@@ -372,7 +408,7 @@ class LLMService {
       contents: [],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2048, // Full responses for transcriptions (same as regular processing)
+        maxOutputTokens: 8192, // Increased from 2048 to 8192 for longer responses
         topK: 40,
         topP: 0.95
       }
@@ -408,7 +444,7 @@ class LLMService {
       contents: [],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: 2048, // Full responses for transcriptions (same as regular processing)
+        maxOutputTokens: 8192, // Increased from 2048 to 8192 for longer responses
         topK: 40,
         topP: 0.95
       }
@@ -1056,15 +1092,17 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async executeAlternativeRequest(geminiRequest) {
+  async executeAlternativeRequest(geminiRequest, maxRetries = 3) {
     const https = require('https');
     const apiKey = config.getApiKey('GEMINI');
     const model = config.get('llm.gemini.model');
     const apiVersion = config.get('llm.gemini.apiVersion') || 'v1beta';
+    const baseTimeout = config.get('llm.gemini.timeout');
     
     logger.info('Using alternative HTTPS request method', {
       model,
-      apiVersion
+      apiVersion,
+      maxRetries
     });
     
     const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
@@ -1080,6 +1118,75 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       throw transformError;
     }
     
+    // Retry logic for 503 errors and timeouts
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        const result = await this._makeAlternativeRequest(url, postData, baseTimeout, attempt, maxRetries);
+        return result;
+      } catch (error) {
+        const errorMessage = error.message || String(error);
+        const isRetryable = this._isAlternativeRequestRetryable(errorMessage, error.statusCode);
+        
+        if (!isRetryable || attempt === maxRetries) {
+          logger.error('Alternative request failed after all retries', {
+            attempt,
+            maxRetries,
+            error: errorMessage,
+            isRetryable
+          });
+          throw error;
+        }
+        
+        // Calculate exponential backoff: 2s, 4s, 8s (capped at 10s)
+        const backoffDelay = Math.min(2000 * Math.pow(2, attempt - 1), 10000);
+        logger.warn('Alternative request failed, retrying with backoff', {
+          attempt,
+          maxRetries,
+          error: errorMessage,
+          backoffDelay,
+          nextAttempt: attempt + 1
+        });
+        
+        await this.delay(backoffDelay);
+      }
+    }
+  }
+
+  _isAlternativeRequestRetryable(errorMessage, statusCode) {
+    if (!errorMessage) return false;
+    
+    const message = errorMessage.toLowerCase();
+    
+    // Retry on 503 (overloaded), 429 (rate limit), 500-504 (server errors)
+    if (statusCode === 503 || statusCode === 429 || (statusCode >= 500 && statusCode <= 504)) {
+      return true;
+    }
+    
+    // Retry on timeout errors
+    if (message.includes('timeout')) {
+      return true;
+    }
+    
+    // Retry on network errors
+    if (message.includes('econnreset') || message.includes('econnaborted') || 
+        message.includes('socket hang up') || message.includes('connection reset')) {
+      return true;
+    }
+    
+    // Don't retry on 400, 401, 403 (client errors)
+    if (statusCode === 400 || statusCode === 401 || statusCode === 403) {
+      return false;
+    }
+    
+    return false;
+  }
+
+  _makeAlternativeRequest(url, postData, timeout, attempt, maxRetries) {
+    const https = require('https');
+    
+    // Increase timeout for later attempts (complex requests may need more time)
+    const requestTimeout = timeout + (attempt - 1) * 10000; // Add 10s per attempt
+    
     const options = {
       method: 'POST',
       headers: {
@@ -1087,7 +1194,7 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
         'Content-Length': Buffer.byteLength(postData),
         'User-Agent': this.getUserAgent()
       },
-      timeout: config.get('llm.gemini.timeout')
+      timeout: requestTimeout
     };
 
     return new Promise((resolve, reject) => {
@@ -1112,10 +1219,12 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
             if (res.statusCode !== 200) {
               // Try to parse error response
               let errorMessage = `HTTP ${res.statusCode}`;
+              let errorCode = res.statusCode;
               try {
                 const errorResponse = JSON.parse(data);
                 if (errorResponse.error) {
                   errorMessage = `HTTP ${res.statusCode}: ${errorResponse.error.message || JSON.stringify(errorResponse.error)}`;
+                  errorCode = errorResponse.error.code || res.statusCode;
                 } else {
                   errorMessage = `HTTP ${res.statusCode}: ${data.substring(0, 200)}`;
                 }
@@ -1123,13 +1232,19 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
                 errorMessage = `HTTP ${res.statusCode}: ${data.substring(0, 200)}`;
               }
               
-              logger.error('Alternative request failed with non-200 status', {
+              const error = new Error(errorMessage);
+              error.statusCode = errorCode;
+              
+              logger.warn('Alternative request failed with non-200 status', {
                 statusCode: res.statusCode,
+                errorCode,
                 errorMessage,
+                attempt,
+                maxRetries,
                 responsePreview: data.substring(0, 500)
               });
               
-              reject(new Error(errorMessage));
+              reject(error);
               return;
             }
             
@@ -1188,9 +1303,39 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
               return;
             }
             
+            // Check for finishReason - if MAX_TOKENS, the response was truncated
+            if (candidate.finishReason === 'MAX_TOKENS') {
+              const usageInfo = response.usageMetadata || {};
+              logger.warn('Response truncated due to MAX_TOKENS limit', {
+                finishReason: candidate.finishReason,
+                hasParts: !!candidate.content.parts,
+                contentKeys: Object.keys(candidate.content),
+                promptTokens: usageInfo.promptTokenCount,
+                totalTokens: usageInfo.totalTokenCount,
+                thoughtsTokens: usageInfo.thoughtsTokenCount
+              });
+              
+              // If there are no parts, this is a problem - the response was completely cut off
+              // This can happen when thoughts tokens consume all available tokens
+              if (!candidate.content.parts || !Array.isArray(candidate.content.parts) || candidate.content.parts.length === 0) {
+                logger.error('Response truncated with no content - thoughts tokens consumed all available tokens', {
+                  finishReason: candidate.finishReason,
+                  usageMetadata: usageInfo,
+                  suggestion: 'The model used all tokens for internal reasoning. This may require a larger maxOutputTokens limit or a different model configuration.'
+                });
+                reject(new Error(`Response truncated: MAX_TOKENS limit reached with no content. Thoughts tokens: ${usageInfo.thoughtsTokenCount || 0}, Total tokens: ${usageInfo.totalTokenCount || 0}. Consider increasing maxOutputTokens significantly.`));
+                return;
+              }
+              // If there are parts, we'll continue and extract what we can (partial response)
+              logger.warn('Response was truncated but partial content is available', {
+                partsCount: candidate.content.parts.length
+              });
+            }
+            
             if (!candidate.content.parts) {
               logger.error('Response candidate content missing parts', {
                 contentKeys: Object.keys(candidate.content),
+                finishReason: candidate.finishReason,
                 responsePreview: JSON.stringify(response).substring(0, 500)
               });
               reject(new Error('Invalid response structure: content missing parts'));
@@ -1249,11 +1394,22 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       });
       
       req.on('error', (error) => {
+        logger.warn('Alternative request network error', {
+          error: error.message,
+          code: error.code,
+          attempt,
+          maxRetries
+        });
         reject(new Error(`Alternative request failed: ${error.message}`));
       });
       
       req.on('timeout', () => {
         req.destroy();
+        logger.warn('Alternative request timeout', {
+          timeout: requestTimeout,
+          attempt,
+          maxRetries
+        });
         reject(new Error('Alternative request timeout'));
       });
       

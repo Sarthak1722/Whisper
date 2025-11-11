@@ -251,7 +251,7 @@ class WindowManager {
         hasShadow: false,
         useContentSize: windowConfig.useContentSize || false,
         thickFrame: false,
-        focusable: true,
+        focusable: false, // Start non-focusable - only focusable when Option+A is pressed
         ...(process.platform === 'darwin' && {
           titleBarStyle: 'hiddenInset',
           trafficLightPosition: { x: -100, y: -100 },
@@ -275,6 +275,7 @@ class WindowManager {
         closable: false,
         hasShadow: false,
         thickFrame: false,
+        focusable: false, // Start non-focusable - only focusable when Option+A is pressed
         ...(process.platform === 'darwin' && {
           titleBarStyle: 'hiddenInset',
           trafficLightPosition: { x: -100, y: -100 },
@@ -1087,30 +1088,52 @@ class WindowManager {
     
     // Toggle focus based on interaction mode
     if (!wasInteractive && this.isInteractive) {
-      // Enabling interaction (Option+A) - Focus the windows
+      // Enabling interaction (Option+A) - Make windows focusable and focus them
       const mainWindow = this.windows.get('main');
       const llmWindow = this.windows.get('llmResponse');
       
       if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isVisible()) {
-        mainWindow.focus();
-        logger.info('Window focused after enabling interaction (Option+A)');
+        // Make window focusable first
+        mainWindow.setFocusable(true);
+        // Small delay to ensure focusable change takes effect
+        setTimeout(() => {
+          if (!mainWindow.isDestroyed() && mainWindow.isVisible()) {
+            mainWindow.focus();
+            logger.info('Window made focusable and focused after enabling interaction (Option+A)');
+          }
+        }, 10);
       }
       
       if (llmWindow && !llmWindow.isDestroyed() && llmWindow.isVisible()) {
-        llmWindow.focus();
+        // Make window focusable first
+        llmWindow.setFocusable(true);
+        // Small delay to ensure focusable change takes effect
+        setTimeout(() => {
+          if (!llmWindow.isDestroyed() && llmWindow.isVisible()) {
+            llmWindow.focus();
+          }
+        }, 10);
       }
     } else if (wasInteractive && !this.isInteractive) {
-      // Disabling interaction (Option+A again) - Blur the windows
+      // Disabling interaction (Option+A again) - Blur and make non-focusable
       const mainWindow = this.windows.get('main');
       const llmWindow = this.windows.get('llmResponse');
       
-      if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isFocused()) {
-        mainWindow.blur();
-        logger.info('Window blurred after disabling interaction (Option+A)');
+      if (mainWindow && !mainWindow.isDestroyed()) {
+        if (mainWindow.isFocused()) {
+          mainWindow.blur();
+        }
+        // Make window non-focusable to prevent accidental focus
+        mainWindow.setFocusable(false);
+        logger.info('Window blurred and made non-focusable after disabling interaction (Option+A)');
       }
       
-      if (llmWindow && !llmWindow.isDestroyed() && llmWindow.isFocused()) {
-        llmWindow.blur();
+      if (llmWindow && !llmWindow.isDestroyed()) {
+        if (llmWindow.isFocused()) {
+          llmWindow.blur();
+        }
+        // Make window non-focusable to prevent accidental focus
+        llmWindow.setFocusable(false);
       }
     }
     
@@ -1465,23 +1488,51 @@ class WindowManager {
     // Show windows WITHOUT focusing (Command+X should not steal focus)
     // Note: We don't change interaction mode here - user controls that with Option+A
     if (llmWindow && !llmWindow.isDestroyed()) {
+      // Ensure window is non-focusable before showing
+      llmWindow.setFocusable(false);
       this.showOnCurrentDesktopNoFocus(llmWindow);
-      // Explicitly blur if it somehow got focus
+      // Explicitly ensure it stays non-focusable and blur if it somehow got focus
       setTimeout(() => {
-        if (!llmWindow.isDestroyed() && llmWindow.isFocused()) {
-          llmWindow.blur();
+        if (!llmWindow.isDestroyed()) {
+          llmWindow.setFocusable(false);
+          if (llmWindow.isFocused()) {
+            llmWindow.blur();
+          }
         }
       }, 50);
+      // One more check after a longer delay
+      setTimeout(() => {
+        if (!llmWindow.isDestroyed()) {
+          llmWindow.setFocusable(false);
+          if (llmWindow.isFocused()) {
+            llmWindow.blur();
+          }
+        }
+      }, 200);
     }
 
     if (mainWindow && !mainWindow.isDestroyed()) {
+      // Ensure window is non-focusable before showing
+      mainWindow.setFocusable(false);
       this.showOnCurrentDesktopNoFocus(mainWindow);
-      // Explicitly blur if it somehow got focus
+      // Explicitly ensure it stays non-focusable and blur if it somehow got focus
       setTimeout(() => {
-        if (!mainWindow.isDestroyed() && mainWindow.isFocused()) {
-          mainWindow.blur();
+        if (!mainWindow.isDestroyed()) {
+          mainWindow.setFocusable(false);
+          if (mainWindow.isFocused()) {
+            mainWindow.blur();
+          }
         }
       }, 50);
+      // One more check after a longer delay
+      setTimeout(() => {
+        if (!mainWindow.isDestroyed()) {
+          mainWindow.setFocusable(false);
+          if (mainWindow.isFocused()) {
+            mainWindow.blur();
+          }
+        }
+      }, 200);
     }
 
     if (this.bindWindows && llmWindow && !llmWindow.isDestroyed()) {
