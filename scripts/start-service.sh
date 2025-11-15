@@ -17,11 +17,11 @@ if [ ! -f "$PLIST_FILE" ]; then
     exit 1
 fi
 
-# Load the service
+# Load the service (using modern launchctl commands)
 if launchctl list | grep -q "${SERVICE_NAME}"; then
     echo "⚠️  Service is already running"
 else
-    launchctl load "$PLIST_FILE"
+    launchctl bootstrap "gui/$(id -u)" "$PLIST_FILE" 2>/dev/null || launchctl load "$PLIST_FILE"
     echo "✅ Service started successfully!"
     echo ""
     echo "The app is now running in the background."

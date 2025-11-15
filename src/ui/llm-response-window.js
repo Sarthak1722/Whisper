@@ -268,7 +268,13 @@ class LLMResponseWindowUI {
         dataKeys: Object.keys(data),
         hasContent: !!data.content,
         hasResponse: !!data.response,
+        skill: data.skill || data.metadata?.skill,
       });
+
+      // Store current skill for later use
+      if (data.skill || data.metadata?.skill) {
+        this.currentSkill = data.skill || data.metadata.skill;
+      }
 
       // Always hide loading state first
       logger.debug("Hiding loading state...");
@@ -304,16 +310,28 @@ class LLMResponseWindowUI {
         component: "LLMResponseWindowUI",
         responseLength: response.length,
         responsePreview: response.substring(0, 200) + "...",
+        skill: this.currentSkill,
       });
 
       // Check if response contains code blocks
       const codeBlocks = this.extractCodeBlocks(response);
       this.hasCode = codeBlocks.length > 0;
 
+      // Check if this is a coding problem (dsa, programming, etc.)
+      // For coding problems, use full layout to show code in entire window
+      const codingSkills = ['dsa', 'programming', 'devops', 'data-science', 'system-design'];
+      const isCodingProblem = codingSkills.includes(data.skill || data.metadata?.skill || this.currentSkill);
+      
+      // Use full layout for coding problems OR if no code blocks
+      const shouldUseFullLayout = !this.hasCode || isCodingProblem;
+
       logger.debug("Code analysis complete", {
         component: "LLMResponseWindowUI",
         hasCode: this.hasCode,
         codeBlockCount: codeBlocks.length,
+        skill: data.skill || data.metadata?.skill || this.currentSkill,
+        isCodingProblem,
+        shouldUseFullLayout,
       });
 
       // Calculate content metrics for dynamic sizing
@@ -323,21 +341,22 @@ class LLMResponseWindowUI {
         component: "LLMResponseWindowUI",
         hasCode: this.hasCode,
         responseLength: response.length,
-        layoutType: this.hasCode ? "split" : "full",
+        layoutType: shouldUseFullLayout ? "full" : "split",
+        skill: data.skill || data.metadata?.skill || this.currentSkill,
       });
 
       // Display content based on type
-      if (this.hasCode) {
-        logger.debug("Displaying split layout...");
-        this.displaySplitLayout(response, codeBlocks);
-      } else {
+      if (shouldUseFullLayout) {
         logger.debug("Displaying full layout...");
         this.displayFullLayout(response);
+      } else {
+        logger.debug("Displaying split layout...");
+        this.displaySplitLayout(response, codeBlocks);
       }
 
       logger.info("Response content displayed successfully", {
         component: "LLMResponseWindowUI",
-        layoutType: this.hasCode ? "split" : "full",
+        layoutType: shouldUseFullLayout ? "full" : "split",
       });
 
       // Setup additional features

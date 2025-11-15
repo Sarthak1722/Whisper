@@ -10,10 +10,10 @@ PLIST_FILE="$LAUNCH_AGENTS_DIR/${SERVICE_NAME}.plist"
 
 echo "🗑️  Uninstalling Vysper background service..."
 
-# Unload the service if it's running
+# Unload the service if it's running (using modern launchctl commands)
 if launchctl list | grep -q "${SERVICE_NAME}"; then
     echo "⏹️  Stopping service..."
-    launchctl unload "$PLIST_FILE" 2>/dev/null || true
+    launchctl bootout "gui/$(id -u)/${SERVICE_NAME}" 2>/dev/null || launchctl unload "$PLIST_FILE" 2>/dev/null || true
 fi
 
 # Remove the plist file

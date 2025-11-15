@@ -33,6 +33,7 @@ fi
 echo "📦 Using Electron at: $ELECTRON_PATH"
 
 # Create the plist file
+# NOTE: We do NOT add --background flag so windows will be visible
 cat > "$PLIST_FILE" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -46,7 +47,6 @@ cat > "$PLIST_FILE" <<EOF
         <string>${ELECTRON_PATH}</string>
         <string>${APP_PATH}</string>
         <string>--no-sandbox</string>
-        <string>--background</string>
     </array>
     
     <key>RunAtLoad</key>
@@ -55,8 +55,8 @@ cat > "$PLIST_FILE" <<EOF
     <key>KeepAlive</key>
     <true/>
     
-    <key>ProcessType</key>
-    <string>Background</string>
+    <key>LimitLoadToSessionType</key>
+    <string>Aqua</string>
     
     <key>StandardOutPath</key>
     <string>${APP_PATH}/output.log</string>
@@ -84,14 +84,44 @@ cat > "$PLIST_FILE" <<EOF
 </plist>
 EOF
 
-# Load the service
+# Unload existing service if it exists (try multiple methods for compatibility)
+echo "🔄 Checking for existing service..."
+if launchctl print "gui/$(id -u)/${SERVICE_NAME}" &>/dev/null; then
+    echo "   Stopping existing service..."
+    launchctl bootout "gui/$(id -u)/${SERVICE_NAME}" 2>/dev/null || true
+    sleep 1
+fi
+
+# Also try legacy unload method
 if launchctl list | grep -q "${SERVICE_NAME}"; then
-    echo "🔄 Service already running, unloading first..."
+    echo "   Stopping service (legacy method)..."
     launchctl unload "$PLIST_FILE" 2>/dev/null || true
+    sleep 1
 fi
 
 echo "📦 Loading service..."
-launchctl load "$PLIST_FILE"
+# Use bootstrap for modern macOS (10.11+), fallback to load for older systems
+if launchctl bootstrap "gui/$(id -u)" "$PLIST_FILE" 2>&1; then
+    echo "   Service loaded successfully with bootstrap"
+else
+    echo "   Bootstrap failed, trying legacy load method..."
+    launchctl load "$PLIST_FILE" 2>&1 || {
+        echo "❌ Failed to load service"
+        echo "   Check error.log and output.log for details"
+        exit 1
+    }
+fi
+
+# Wait a moment for service to start
+sleep 2
+
+# Verify service is running
+if launchctl print "gui/$(id -u)/${SERVICE_NAME}" &>/dev/null || launchctl list | grep -q "${SERVICE_NAME}"; then
+    echo "✅ Service is running"
+else
+    echo "⚠️  Warning: Service may not have started properly"
+    echo "   Check logs: tail -f ${APP_PATH}/error.log"
+fi
 
 echo "✅ Service installed successfully!"
 echo ""

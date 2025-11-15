@@ -18,6 +18,7 @@ class ApplicationController {
     this.isReady = false;
     this.activeSkill = "dsa";
     this.codingLanguage = "cpp";
+    this.isBackgroundMode = process.argv.includes('--background');
 
     // Window configurations for reference
     this.windowConfigs = {
@@ -111,8 +112,19 @@ class ApplicationController {
       // Small delay to ensure desktop/space detection is accurate
       await new Promise((resolve) => setTimeout(resolve, 200));
 
+      // Set background mode flag in window manager
+      windowManager.isBackgroundMode = this.isBackgroundMode;
+      
       await windowManager.initializeWindows();
       this.setupGlobalShortcuts();
+      
+      // If running in background mode, hide windows initially
+      if (this.isBackgroundMode) {
+        windowManager.hideAllWindows();
+        windowManager.overlayVisible = false;
+        windowManager.userExplicitlyHidden = true; // Start hidden in background mode
+        logger.info('Running in background mode - windows hidden initially');
+      }
 
       // Initialize default stealth mode with terminal icon
       this.updateAppIcon("terminal");

@@ -20,6 +20,8 @@ class WindowManager {
     this.isInitializing = false;
     this.isRecording = false;
     this.userExplicitlyHidden = false; // Track if user explicitly hid windows via Command+X
+    this.overlayVisible = false; // Track overlay visibility state for screen persistence
+    this.isBackgroundMode = false; // Track if running as background service
     
     // Add debouncing to prevent excessive operations
     this.lastEnforceTime = 0;
@@ -113,7 +115,6 @@ class WindowManager {
     }
     const window = await this.createWindow('main', false); // Don't show during creation
     this.windows.set('main', window);
-    this.isVisible = true;
     
     // Immediate always-on-top enforcement for main window
     if (process.platform === 'darwin') {
@@ -129,25 +130,34 @@ class WindowManager {
     // DevTools can be opened manually if needed for debugging
     // window.webContents.openDevTools({ mode: 'detach' });
     
-    // Wait for app to fully initialize and detect current desktop
-    setTimeout(() => {
-      this.showOnCurrentDesktop(window);
-      
-      // Additional enforcement after showing
+    // Only show window if not in background mode
+    if (!this.isBackgroundMode) {
+      this.isVisible = true;
+      // Wait for app to fully initialize and detect current desktop
       setTimeout(() => {
-        if (!window.isDestroyed()) {
-          if (process.platform === 'darwin') {
-            try {
-              window.setAlwaysOnTop(true, 'screen-saver', 2);
-            } catch (error) {
-              window.setAlwaysOnTop(true, 'floating', 2);
+        this.showOnCurrentDesktop(window);
+        
+        // Additional enforcement after showing
+        setTimeout(() => {
+          if (!window.isDestroyed()) {
+            if (process.platform === 'darwin') {
+              try {
+                window.setAlwaysOnTop(true, 'screen-saver', 2);
+              } catch (error) {
+                window.setAlwaysOnTop(true, 'floating', 2);
+              }
+            } else {
+              window.setAlwaysOnTop(true);
             }
-          } else {
-            window.setAlwaysOnTop(true);
           }
-        }
-      }, 200);
-    }, 100);
+        }, 200);
+      }, 100);
+    } else {
+      // In background mode, keep window hidden
+      this.isVisible = false;
+      window.hide();
+      logger.debug('Main window created but hidden (background mode)');
+    }
     
     return window;
   }
@@ -1016,6 +1026,12 @@ class WindowManager {
       return;
     }
 
+    // Don't auto-show windows in background mode unless user explicitly requests it
+    if (this.isBackgroundMode && this.userExplicitlyHidden) {
+      logger.debug('Skipping showAllWindows in background mode - windows are explicitly hidden');
+      return;
+    }
+
     this.windows.forEach((window, type) => {
       if (type !== 'llmResponse') { // Don't show LLM response unless it has content
         this.showOnCurrentDesktop(window);
@@ -1304,6 +1320,7 @@ class WindowManager {
           timestamp: new Date().toISOString()
         });
       }
+      // Don't set overlayVisible since user explicitly hid it
       return;
     }
 
@@ -1339,6 +1356,9 @@ class WindowManager {
     
     // Show window without focusing (use showOnCurrentDesktopNoFocus)
     this.showOnCurrentDesktopNoFocus(llmWindow);
+    
+    // Mark overlay as visible since we're showing it
+    this.overlayVisible = true;
     
     // Position bound windows when LLM response is shown
     if (this.bindWindows) {
@@ -1473,6 +1493,7 @@ class WindowManager {
       }
       // Mark that user explicitly hid the windows
       this.userExplicitlyHidden = true;
+      this.overlayVisible = false; // Track overlay is now hidden
       logger.info('LLM response and main windows hidden via toggle - user explicitly hidden flag set');
       return false;
     }
@@ -1484,6 +1505,7 @@ class WindowManager {
 
     // User is showing windows, clear the explicit hide flag
     this.userExplicitlyHidden = false;
+    this.overlayVisible = true; // Track overlay is now visible
 
     // Show windows WITHOUT focusing (Command+X should not steal focus)
     // Note: We don't change interaction mode here - user controls that with Option+A
@@ -1538,6 +1560,21 @@ class WindowManager {
     if (this.bindWindows && llmWindow && !llmWindow.isDestroyed()) {
       this.positionBoundWindows();
     }
+
+    // Ensure both windows are visible and positioned correctly
+    setTimeout(() => {
+      if (llmWindow && !llmWindow.isDestroyed() && !llmWindow.isVisible()) {
+        llmWindow.setFocusable(false);
+        this.showOnCurrentDesktopNoFocus(llmWindow);
+      }
+      if (mainWindow && !mainWindow.isDestroyed() && !mainWindow.isVisible()) {
+        mainWindow.setFocusable(false);
+        this.showOnCurrentDesktopNoFocus(mainWindow);
+      }
+      if (this.bindWindows) {
+        this.positionBoundWindows();
+      }
+    }, 100);
 
     logger.info('LLM response and main windows shown via toggle (without focus) - user explicitly hidden flag cleared');
     return true;
@@ -1788,8 +1825,28 @@ class WindowManager {
       if (mainWindow && llmWindow && !mainWindow.isDestroyed() && !llmWindow.isDestroyed()) {
         // Position bound windows on the new screen and ensure they appear on current desktop
         this.positionBoundWindows();
-        if (mainWindow.isVisible()) this.showOnCurrentDesktop(mainWindow);
-        if (llmWindow.isVisible()) this.showOnCurrentDesktop(llmWindow);
+        
+        // If overlay was visible, ensure it stays visible on new screen
+        if (this.overlayVisible && !this.userExplicitlyHidden) {
+          // Show windows without focus to maintain overlay state
+          if (!mainWindow.isVisible()) {
+            mainWindow.setFocusable(false);
+            this.showOnCurrentDesktopNoFocus(mainWindow);
+          } else {
+            this.showOnCurrentDesktopNoFocus(mainWindow);
+          }
+          
+          if (!llmWindow.isVisible()) {
+            llmWindow.setFocusable(false);
+            this.showOnCurrentDesktopNoFocus(llmWindow);
+          } else {
+            this.showOnCurrentDesktopNoFocus(llmWindow);
+          }
+        } else {
+          // Only show if they were already visible
+          if (mainWindow.isVisible()) this.showOnCurrentDesktopNoFocus(mainWindow);
+          if (llmWindow.isVisible()) this.showOnCurrentDesktopNoFocus(llmWindow);
+        }
       }
     }
     
@@ -1843,8 +1900,19 @@ class WindowManager {
         }
         
         // Ensure window appears on current desktop if it's visible
+        // For overlay windows (main/llmResponse), maintain visibility state across screens
         if (window.isVisible()) {
-          this.showOnCurrentDesktop(window);
+          if ((type === 'main' || type === 'llmResponse') && this.overlayVisible && !this.userExplicitlyHidden) {
+            // Overlay is supposed to be visible, ensure it shows on new screen
+            window.setFocusable(false);
+            this.showOnCurrentDesktopNoFocus(window);
+          } else {
+            this.showOnCurrentDesktop(window);
+          }
+        } else if ((type === 'main' || type === 'llmResponse') && this.overlayVisible && !this.userExplicitlyHidden) {
+          // Overlay should be visible but window is hidden - show it on new screen
+          window.setFocusable(false);
+          this.showOnCurrentDesktopNoFocus(window);
         }
         
         logger.debug('Window moved to active screen and shown on current desktop', {

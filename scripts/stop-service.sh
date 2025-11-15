@@ -10,9 +10,9 @@ PLIST_FILE="$LAUNCH_AGENTS_DIR/${SERVICE_NAME}.plist"
 
 echo "⏹️  Stopping Vysper background service..."
 
-# Unload the service if it's running
+# Unload the service if it's running (using modern launchctl commands)
 if launchctl list | grep -q "${SERVICE_NAME}"; then
-    launchctl unload "$PLIST_FILE" 2>/dev/null || true
+    launchctl bootout "gui/$(id -u)/${SERVICE_NAME}" 2>/dev/null || launchctl unload "$PLIST_FILE" 2>/dev/null || true
     echo "✅ Service stopped successfully!"
     echo ""
     echo "The app is now stopped."

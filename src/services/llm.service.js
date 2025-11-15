@@ -7,6 +7,10 @@ class LLMService {
   constructor() {
     this.client = null;
     this.model = null;
+    this.clients = []; // Array of clients for multiple keys
+    this.models = []; // Array of models for multiple keys
+    this.currentKeyIndex = 0; // Current key index for rotation
+    this.exhaustedKeys = new Set(); // Track exhausted keys (quota exceeded)
     this.isInitialized = false;
     this.requestCount = 0;
     this.errorCount = 0;
@@ -15,31 +19,91 @@ class LLMService {
   }
 
   initializeClient() {
-    const apiKey = config.getApiKey('GEMINI');
+    const apiKeys = config.getApiKeys('GEMINI');
     
-    if (!apiKey || apiKey === 'your-api-key-here') {
+    if (apiKeys.length === 0) {
       logger.warn('Gemini API key not configured', { 
-        keyExists: !!apiKey,
-        isPlaceholder: apiKey === 'your-api-key-here'
+        checkedForKeys: true
       });
       return;
     }
 
-    try {
-      this.client = new GoogleGenerativeAI(apiKey);
-      this.model = this.client.getGenerativeModel({ 
-        model: config.get('llm.gemini.model') 
-      });
-      this.isInitialized = true;
+    const modelName = config.get('llm.gemini.model');
+    
+    // Initialize clients for all API keys
+    for (let i = 0; i < apiKeys.length; i++) {
+      try {
+        const client = new GoogleGenerativeAI(apiKeys[i]);
+        const model = client.getGenerativeModel({ model: modelName });
+        this.clients.push(client);
+        this.models.push(model);
+          
+          // Set primary client/model to first one for backward compatibility
+          if (i === 0) {
+          this.client = client;
+          this.model = model;
+          }
+          
+        this.isInitialized = true;
+        } catch (error) {
+          logger.error(`Failed to initialize Gemini client ${i + 1}`, { 
+            error: error.message,
+            keyIndex: i
+          });
+        }
+      }
       
-      logger.info('Gemini AI client initialized successfully', {
-        model: config.get('llm.gemini.model')
+    if (this.models.length > 0) {
+        logger.info('Gemini AI clients initialized successfully', {
+        model: modelName,
+        totalKeys: this.models.length,
+        keysConfigured: apiKeys.length
       });
-    } catch (error) {
-      logger.error('Failed to initialize Gemini client', { 
-        error: error.message 
-      });
+    } else {
+      logger.error('No Gemini clients could be initialized');
     }
+  }
+
+  getNextModel() {
+    // Get the next available model, rotating through keys
+    if (this.models.length === 0) {
+      return null;
+    }
+    
+    // If we only have one model, use it
+    if (this.models.length === 1) {
+      return this.models[0];
+    }
+    
+    // Find next available model (not exhausted)
+    let attempts = 0;
+    while (attempts < this.models.length) {
+      if (!this.exhaustedKeys.has(this.currentKeyIndex)) {
+        return this.models[this.currentKeyIndex];
+      }
+      // Move to next key
+      this.currentKeyIndex = (this.currentKeyIndex + 1) % this.models.length;
+      attempts++;
+    }
+    
+    // All keys exhausted, reset and try first one
+    logger.warn('All Gemini keys exhausted, resetting and trying again');
+    this.exhaustedKeys.clear();
+    this.currentKeyIndex = 0;
+    return this.models[0];
+  }
+
+  markKeyExhausted(keyIndex) {
+    this.exhaustedKeys.add(keyIndex);
+    logger.warn(`Gemini API key ${keyIndex + 1} marked as exhausted (quota exceeded)`, {
+      keyIndex,
+      totalKeys: this.models.length,
+      exhaustedKeys: this.exhaustedKeys.size,
+      remainingKeys: this.models.length - this.exhaustedKeys.size
+    });
+    
+    // Move to next key
+    this.currentKeyIndex = (this.currentKeyIndex + 1) % this.models.length;
   }
 
   async processTextWithSkill(text, activeSkill, sessionMemory = [], programmingLanguage = null) {
@@ -75,24 +139,56 @@ class LLMService {
             note: 'This is normal - alternative method will be used automatically'
           });
           try {
-            response = await this.executeAlternativeRequest(geminiRequest);
+            // Try with current key first
+            response = await this.executeAlternativeRequest(geminiRequest, 3, null);
             usedAlternativeMethod = true;
             logger.info('✅ Request succeeded via alternative HTTPS method', {
-              requestId: this.requestCount,
-              responseLength: response.length,
-              method: 'alternative_https'
+            requestId: this.requestCount,
+            responseLength: response.length,
+              method: 'alternative_https',
+              keyIndex: this.currentKeyIndex
             });
           } catch (altError) {
-            logger.error('Both standard and alternative methods failed', {
-              standardError: error.message,
-              alternativeError: altError.message,
-              requestId: this.requestCount
-            });
-            throw altError;
+            // If we have multiple keys, try next one
+            if (this.models.length > 1) {
+              const nextKeyIndex = (this.currentKeyIndex + 1) % this.models.length;
+              try {
+                logger.info('Trying alternative method with next API key', {
+                  requestId: this.requestCount,
+                  previousKeyIndex: this.currentKeyIndex,
+                  nextKeyIndex: nextKeyIndex
+                });
+                response = await this.executeAlternativeRequest(geminiRequest, 3, nextKeyIndex);
+                this.currentKeyIndex = nextKeyIndex;
+                usedAlternativeMethod = true;
+                logger.info('✅ Request succeeded via alternative HTTPS method with next key', {
+              requestId: this.requestCount,
+              responseLength: response.length,
+                  method: 'alternative_https',
+                  keyIndex: nextKeyIndex
+                });
+              } catch (nextKeyError) {
+                logger.error('All methods and keys failed', {
+                  standardError: error.message,
+                  alternativeError: altError.message,
+                  nextKeyError: nextKeyError.message,
+                  requestId: this.requestCount,
+                  totalKeys: this.models.length
+                });
+                throw nextKeyError;
+            }
+          } else {
+              logger.error('Both standard and alternative methods failed', {
+                standardError: error.message,
+                alternativeError: altError.message,
+                requestId: this.requestCount
+              });
+              throw altError;
+            }
           }
-        } else {
+      } else {
           throw error;
-        }
+      }
       }
       
       logger.logPerformance('LLM text processing', startTime, {
@@ -104,8 +200,12 @@ class LLMService {
         method: usedAlternativeMethod ? 'alternative_https' : 'standard_sdk'
       });
 
+      // Process MCQ answer extraction if this is an MCQ question
+      // Pass activeSkill to help distinguish coding problems from MCQs
+      const processedResponse = this.extractMcqAnswer(response, text, activeSkill);
+
       return {
-        response,
+        response: processedResponse,
         metadata: {
           skill: activeSkill,
           programmingLanguage,
@@ -194,36 +294,72 @@ class LLMService {
             note: 'This is normal - alternative method will be used automatically'
           });
           try {
-            response = await this.executeAlternativeRequest(geminiRequest);
+            // Try with current key first
+            response = await this.executeAlternativeRequest(geminiRequest, 3, null);
             usedAlternativeMethod = true;
             logger.info('✅ Request succeeded via alternative HTTPS method', {
-              requestId: this.requestCount,
-              responseLength: response.length,
-              method: 'alternative_https'
+            requestId: this.requestCount,
+            responseLength: response.length,
+              method: 'alternative_https',
+              keyIndex: this.currentKeyIndex
             });
           } catch (altError) {
-            logger.error('Both standard and alternative methods failed', {
-              standardError: error.message,
-              alternativeError: altError.message,
-              requestId: this.requestCount
-            });
-            throw altError;
+            // If we have multiple keys, try next one
+            if (this.models.length > 1) {
+              const nextKeyIndex = (this.currentKeyIndex + 1) % this.models.length;
+              try {
+                logger.info('Trying alternative method with next API key', {
+                  requestId: this.requestCount,
+                  previousKeyIndex: this.currentKeyIndex,
+                  nextKeyIndex: nextKeyIndex
+                });
+                response = await this.executeAlternativeRequest(geminiRequest, 3, nextKeyIndex);
+                this.currentKeyIndex = nextKeyIndex;
+                usedAlternativeMethod = true;
+                logger.info('✅ Request succeeded via alternative HTTPS method with next key', {
+              requestId: this.requestCount,
+              responseLength: response.length,
+                  method: 'alternative_https',
+                  keyIndex: nextKeyIndex
+                });
+              } catch (nextKeyError) {
+                logger.error('All methods and keys failed', {
+                  standardError: error.message,
+                  alternativeError: altError.message,
+                  nextKeyError: nextKeyError.message,
+                  requestId: this.requestCount,
+                  totalKeys: this.models.length
+                });
+                throw nextKeyError;
           }
         } else {
+              logger.error('Both standard and alternative methods failed', {
+                standardError: error.message,
+                alternativeError: altError.message,
+                requestId: this.requestCount
+              });
+              throw altError;
+            }
+          }
+      } else {
           throw error;
-        }
       }
+      }
+      
+      // Process MCQ answer extraction if this is an MCQ question
+      // Pass activeSkill to help distinguish coding problems from MCQs
+      const processedResponse = this.extractMcqAnswer(response, text, activeSkill);
       
       logger.logPerformance('LLM transcription processing', startTime, {
         activeSkill,
         textLength: text.length,
-        responseLength: response.length,
+        responseLength: processedResponse.length,
         programmingLanguage: programmingLanguage || 'not specified',
         requestId: this.requestCount
       });
 
       return {
-        response,
+        response: processedResponse,
         metadata: {
           skill: activeSkill,
           programmingLanguage,
@@ -625,8 +761,16 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
           });
         }
         
+        // Get the current model (with rotation support)
+        const currentModel = this.getNextModel();
+        if (!currentModel) {
+          throw new Error('No available Gemini models');
+        }
+        
+        const currentKeyIndex = this.currentKeyIndex; // Store current key index
+        
         // Execute the request with timeout
-        const requestPromise = this.model.generateContent(geminiRequest);
+        const requestPromise = currentModel.generateContent(geminiRequest);
         const result = await Promise.race([requestPromise, timeoutPromise]);
         
         if (!result || !result.response) {
@@ -642,7 +786,9 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
         logger.info('Gemini API request successful', {
           attempt,
           responseLength: responseText.length,
-          totalAttempts: attempt
+          totalAttempts: attempt,
+          keyIndex: currentKeyIndex,
+          totalKeys: this.models.length
         });
 
         return responseText.trim();
@@ -650,6 +796,31 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
         lastError = error;
         const errorInfo = this.analyzeError(error);
         lastErrorInfo = errorInfo;
+        
+        // Check if this is a quota/rate limit error - mark key as exhausted and try next
+        const errorMessage = error.message.toLowerCase();
+        const isQuotaError = errorInfo.type === 'RATE_LIMIT_ERROR' || 
+                            errorMessage.includes('quota') || 
+                            errorMessage.includes('rate limit') || 
+                            errorMessage.includes('429') ||
+                            (error.status === 429);
+        
+        // Handle quota errors - switch to next key immediately
+        if (isQuotaError && typeof currentKeyIndex !== 'undefined' && this.models.length > 1) {
+          this.markKeyExhausted(currentKeyIndex);
+          
+          // If we have more keys, try the next one immediately
+          if (this.exhaustedKeys.size < this.models.length) {
+            logger.info('Switching to next Gemini API key due to quota/rate limit', {
+              previousKeyIndex: currentKeyIndex,
+              newKeyIndex: this.currentKeyIndex,
+              exhaustedKeys: this.exhaustedKeys.size,
+              totalKeys: this.models.length
+            });
+            // Continue to next iteration with new key (don't count as failed attempt)
+            continue;
+          }
+        }
         
         // Enhanced error logging for fetch failures
         if (errorInfo.type === 'NETWORK_ERROR') {
@@ -686,13 +857,16 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
         }
 
         // Try alternative HTTPS method for network errors (but not on every attempt to avoid spam)
+        // Also try with next key if available
         if (errorInfo.type === 'NETWORK_ERROR' && config.get('llm.gemini.enableFallbackMethod') && attempt <= 2) {
+          // Try with current key first
           try {
             logger.info('Attempting alternative HTTPS transport', {
               attempt,
-              transport: 'https_direct'
+                transport: 'https_direct',
+              keyIndex: typeof currentKeyIndex !== 'undefined' ? currentKeyIndex : 'default'
             });
-            const fallbackResponse = await this.executeAlternativeRequest(geminiRequest);
+            const fallbackResponse = await this.executeAlternativeRequest(geminiRequest, 3, typeof currentKeyIndex !== 'undefined' ? currentKeyIndex : null);
             logger.info('Alternative HTTPS transport succeeded', {
               attempt,
               responseLength: fallbackResponse.length
@@ -704,12 +878,82 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
               error: fallbackError.message,
               transport: 'https_direct'
             });
+            
+            // If we have multiple keys and this failed, try next key
+            if (this.models.length > 1 && typeof currentKeyIndex !== 'undefined') {
+              const nextKeyIndex = (currentKeyIndex + 1) % this.models.length;
+              if (nextKeyIndex !== currentKeyIndex) {
+                try {
+                  logger.info('Trying alternative HTTPS transport with next API key', {
+                    attempt,
+                    previousKeyIndex: currentKeyIndex,
+                    nextKeyIndex: nextKeyIndex
+                  });
+                  const nextKeyResponse = await this.executeAlternativeRequest(geminiRequest, 3, nextKeyIndex);
+                  // Update current key index if successful
+                  this.currentKeyIndex = nextKeyIndex;
+                  logger.info('Alternative HTTPS transport succeeded with next key', {
+                    attempt,
+                    responseLength: nextKeyResponse.length,
+                    keyIndex: nextKeyIndex
+                  });
+                  return nextKeyResponse;
+                } catch (nextKeyError) {
+                  logger.warn('Alternative HTTPS transport failed with next key too', {
+                    attempt,
+                    error: nextKeyError.message,
+                    keyIndex: nextKeyIndex
+                  });
+                }
+              }
+            }
             // Continue with retry logic below
           }
         }
 
-        // If this is the last attempt, throw the error
+        // If this is the last attempt, try next key if available before giving up
         if (attempt === maxRetries) {
+          // If we have multiple keys and haven't tried all of them, try next key
+          if (this.models.length > 1 && typeof currentKeyIndex !== 'undefined') {
+            const nextKeyIndex = (currentKeyIndex + 1) % this.models.length;
+            if (nextKeyIndex !== currentKeyIndex && !this.exhaustedKeys.has(nextKeyIndex)) {
+              logger.info('Last attempt failed, trying with next API key', {
+                previousKeyIndex: currentKeyIndex,
+                nextKeyIndex: nextKeyIndex,
+                totalKeys: this.models.length
+              });
+              
+              // Update current key index and try once more with new key
+              this.currentKeyIndex = nextKeyIndex;
+              const nextModel = this.models[nextKeyIndex];
+              
+              try {
+                const timeoutPromise = new Promise((_, reject) => 
+                  setTimeout(() => reject(new Error('Request timeout')), timeout)
+                );
+                const requestPromise = nextModel.generateContent(geminiRequest);
+                const result = await Promise.race([requestPromise, timeoutPromise]);
+                
+                if (result && result.response) {
+                  const responseText = result.response.text();
+                  if (responseText && typeof responseText === 'string' && responseText.trim().length > 0) {
+                    logger.info('Request succeeded with next API key', {
+                      keyIndex: nextKeyIndex,
+                      responseLength: responseText.length
+                    });
+                    return responseText.trim();
+                  }
+                }
+              } catch (nextKeyError) {
+                logger.warn('Next key also failed', {
+                  keyIndex: nextKeyIndex,
+                  error: nextKeyError.message
+                });
+              }
+            }
+          }
+          
+          // All keys exhausted or no more keys to try
           const finalError = new Error(`Gemini API failed after ${maxRetries} attempts: ${error.message}`);
           finalError.errorAnalysis = errorInfo;
           finalError.originalError = error;
@@ -923,6 +1167,367 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
     });
   }
 
+  extractMcqAnswer(response, originalText, activeSkill = null) {
+    if (!originalText || !response) {
+      return response;
+    }
+
+    // First, check if this is likely a coding problem (not an MCQ)
+    // Coding problems should not go through MCQ extraction
+    const codingProblemIndicators = [
+      /class\s+\w+\s*\{/i, // Class definition
+      /(?:def|function|public|private|protected)\s+\w+\s*\(/i, // Function definition
+      /leetcode|hackerrank|codeforces|atcoder/i, // Coding platform names
+      /\d+\.\s+\w+.*rectangle|array|tree|graph|string/i, // Problem number + problem type
+      /solution|implement|algorithm|code\s+to/i, // Coding keywords
+      /return\s+(?:true|false|\w+)/i, // Return statements
+      /#include|using\s+namespace|import\s+/i, // Code imports
+      /vector|list|map|set|queue|stack/i, // Data structures
+      /int\s+\w+\s*\(|void\s+\w+\s*\(|bool\s+\w+\s*\(/i // Function signatures
+    ];
+
+    const isLikelyCodingProblem = codingProblemIndicators.some(pattern => pattern.test(originalText));
+    
+    // Also check if response contains code blocks - if it does, it's likely a coding solution
+    const hasCodeBlocks = /```[\s\S]*?```/.test(response);
+    
+    // For coding skills, be more conservative about MCQ detection
+    const codingSkills = ['dsa', 'programming', 'devops', 'data-science', 'system-design'];
+    const isCodingSkill = activeSkill && codingSkills.includes(activeSkill);
+    
+    // If it's likely a coding problem, skip MCQ extraction
+    if (isLikelyCodingProblem || (hasCodeBlocks && isCodingSkill)) {
+      logger.debug('Skipping MCQ extraction - detected as coding problem', {
+        isLikelyCodingProblem,
+        hasCodeBlocks,
+        isCodingSkill,
+        activeSkill,
+        originalTextPreview: originalText.substring(0, 200)
+      });
+      return response; // Return original response (coding solution)
+    }
+
+    // Detect if this is an MCQ question by checking for common patterns
+    // But require stronger evidence for MCQ (multiple indicators)
+    const mcqPatterns = [
+      /(?:which|what|choose|select|pick).*?(?:option|answer|choice|letter)[\s\S]{0,200}?[a-eA-E][\)\.]/gi,
+      /(?:option|answer|choice)\s*[a-eA-E][\)\.]/gi,
+      /[a-eA-E][\)\.]\s+[A-Z][a-z]+/gi, // "A) Text" with actual text
+      /^\s*[a-eA-E][\)\.]\s+[A-Z]/gm // Option at start of line with text
+    ];
+
+    const mcqMatches = mcqPatterns.filter(pattern => pattern.test(originalText));
+    const isMcq = mcqMatches.length >= 2; // Require at least 2 patterns to match (stronger evidence)
+    
+    if (!isMcq) {
+      logger.debug('Not detected as MCQ - insufficient patterns matched', {
+        matchedPatterns: mcqMatches.length,
+        originalTextPreview: originalText.substring(0, 200)
+      });
+      return response; // Not an MCQ, return original response
+    }
+
+    logger.debug('MCQ detected, extracting answer', {
+      originalTextLength: originalText.length,
+      responseLength: response.length,
+      responsePreview: response.substring(0, 200)
+    });
+
+    // Clean response - remove code blocks and extract text
+    let cleanResponse = response;
+    // Remove code blocks but keep the content
+    cleanResponse = cleanResponse.replace(/```[\s\S]*?```/g, (match) => {
+      // Extract content from code block
+      return match.replace(/```[\w]*\n?/g, '').replace(/```/g, '').trim();
+    });
+    cleanResponse = cleanResponse.replace(/`([^`]+)`/g, '$1'); // Remove inline code
+    cleanResponse = cleanResponse.trim();
+
+    // Extract the answer letter from the response
+    const answerPatterns = [
+      /(?:answer|correct|right|solution)[\s:]*([a-eA-E])/gi,
+      /(?:option|choice)\s*([a-eA-E])\s*(?:is|are|was|were|correct|right|answer)/gi,
+      /^([a-eA-E])[\)\.]\s*(?:is|the|correct|answer)/gim,
+      /(?:select|choose|pick)\s*([a-eA-E])/gi,
+      /answer\s*:\s*([a-eA-E])/gi, // "Answer: B" format
+      /\b([a-eA-E])\b/g // Last resort: any single letter A-E
+    ];
+
+    let extractedAnswer = null;
+    for (const pattern of answerPatterns) {
+      const matches = cleanResponse.match(pattern);
+      if (matches && matches.length > 0) {
+        for (const match of matches) {
+          const letterMatch = match.match(/([a-eA-E])/i);
+          if (letterMatch) {
+            extractedAnswer = letterMatch[1].toUpperCase();
+            logger.debug('Answer letter extracted', {
+              pattern: pattern.toString(),
+              match: match,
+              answer: extractedAnswer
+            });
+            break;
+          }
+        }
+        if (extractedAnswer) break;
+      }
+    }
+
+    if (!extractedAnswer) {
+      logger.debug('Could not extract MCQ answer letter, returning original response');
+      return response;
+    }
+
+    logger.debug('MCQ answer letter extracted', {
+      answer: extractedAnswer,
+      originalResponseLength: response.length
+    });
+
+    // Find the option text for this answer in the original text
+    const letterUpper = extractedAnswer.toUpperCase();
+    const letterLower = extractedAnswer.toLowerCase();
+    
+    logger.debug('Extracting option text for answer', {
+      answer: extractedAnswer,
+      originalTextLength: originalText.length,
+      originalTextPreview: originalText.substring(0, 1000)
+    });
+    
+    // Also log all occurrences of the answer letter in the text for debugging
+    const answerOccurrences = [];
+    const letterPattern = new RegExp(`[${extractedAnswer}${extractedAnswer.toLowerCase()}][\\).]?\\s+[^\\n]{0,100}`, 'gi');
+    let match;
+    while ((match = letterPattern.exec(originalText)) !== null) {
+      answerOccurrences.push({
+        position: match.index,
+        text: match[0].substring(0, 150)
+      });
+    }
+    logger.debug('Answer letter occurrences in original text', {
+      answer: extractedAnswer,
+      count: answerOccurrences.length,
+      occurrences: answerOccurrences.slice(0, 5) // Show first 5
+    });
+    
+    // Try multiple patterns to find the option text - improved patterns
+    // These patterns handle various formats: "A) text", "A. text", "A text", etc.
+    const optionPatterns = [
+      // Pattern 1: "A) text" or "A. text" on same line - match until next option (handles short options)
+      new RegExp(`(?:^|[\\s\\n])([${letterUpper}${letterLower}])[\\).]\\s+([^\\n]{1,500}?)(?=\\s*(?:[A-E][\\).]|$|\\n\\s*[A-E][\\).]|\\n\\s*[A-E]\\s|\\n))`, 'im'),
+      // Pattern 2: "A) text" - match full line (more permissive, handles short options)
+      new RegExp(`(?:^|[\\s\\n])([${letterUpper}${letterLower}])[\\).]\\s+([^\\n]+?)(?=\\s*(?:[A-E][\\).]|$|\\n))`, 'im'),
+      // Pattern 3: "A text" (without parenthesis/period) - match until next option
+      new RegExp(`(?:^|[\\s\\n])([${letterUpper}${letterLower}])\\s+([^\\n]{1,500}?)(?=\\s*(?:[A-E][\\).]|$|\\n\\s*[A-E][\\).]|\\n\\s*[A-E]\\s|\\n))`, 'im'),
+      // Pattern 4: Match across multiple lines if needed (for code-like options)
+      new RegExp(`(?:^|[\\s\\n])([${letterUpper}${letterLower}])[\\).]\\s+([\\s\\S]{1,800}?)(?=\\s*(?:[A-E][\\).]|$|\\n\\s*[A-E][\\).]|\\n\\s*[A-E]\\s|\\n))`, 'im'),
+      // Pattern 5: More flexible - match any text after the letter (handles code with special chars)
+      new RegExp(`([${letterUpper}${letterLower}])[\\).]\\s*([^${letterUpper}${letterLower}]{1,600}?)(?=\\s*[A-E][\\).]|\\s*[A-E]\\s|$)`, 'i'),
+      // Pattern 6: Handle options that might be on separate lines (common in quizzes)
+      new RegExp(`(?:^|\\n)\\s*([${letterUpper}${letterLower}])[\\).]\\s+([\\s\\S]{1,800}?)(?=\\s*(?:\\n\\s*[A-E][\\).]|\\n\\s*[A-E]\\s|$|\\n))`, 'im'),
+      // Pattern 7: Very permissive - match anything after letter until next letter option
+      new RegExp(`\\b([${letterUpper}${letterLower}])[\\).]?\\s+([^]*?)(?=\\s*(?:[A-E][\\).]|\\s+[A-E]\\s|$))`, 'i'),
+      // Pattern 8: Simple format - "D) Compile time error" on same line (most common)
+      new RegExp(`([${letterUpper}${letterLower}])[\\).]\\s+([^\\n]{1,200})`, 'gi')
+    ];
+
+    let optionText = null;
+    let bestMatch = null;
+    let bestLength = 0;
+    let bestPatternIndex = -1;
+    
+    for (let i = 0; i < optionPatterns.length; i++) {
+      const pattern = optionPatterns[i];
+      try {
+        const matches = originalText.matchAll(pattern);
+        for (const match of matches) {
+          if (match && match[2]) {
+            let text = match[2].trim();
+            
+            // Skip if empty, but allow very short options (like "1", "3")
+            if (text.length < 1) continue;
+            
+            // Clean up option text - but preserve code-like content
+            text = text
+              .replace(/^\s*[•\-\*]\s*/, '') // Remove leading bullets
+              .replace(/\n\s*\n+/g, ' ') // Replace multiple newlines with single space
+              .trim();
+            
+            // Stop at common delimiters that indicate next option
+            const stopPatterns = [
+              /^([^]*?)(?=\s+[A-E][\)\.])/, // Stop before next option letter with paren
+              /^([^]*?)(?=\n\s*[A-E][\)\.])/, // Stop before next option on new line
+              /^([^]*?)(?=\s+[A-E]\s)/, // Stop before next option letter without paren
+            ];
+            
+            for (const stopPattern of stopPatterns) {
+              const stopMatch = text.match(stopPattern);
+              if (stopMatch && stopMatch[1]) {
+                const candidate = stopMatch[1].trim();
+                if (candidate.length > 0) {
+                  text = candidate;
+                }
+              }
+            }
+            
+            // Remove trailing punctuation that might be from OCR errors (but keep code syntax)
+            text = text.replace(/[\.;,\s]+$/, '').trim();
+            
+            // Prefer longer matches (more likely to be complete)
+            // But also accept shorter matches if they're from earlier (more specific) patterns
+            // This helps catch short options like "1", "3", "Compile time error"
+            const isBetterMatch = text.length > bestLength || 
+                                 (text.length >= bestLength * 0.7 && i < bestPatternIndex) ||
+                                 (bestLength === 0 && text.length > 0);
+            
+            if (isBetterMatch) {
+              bestMatch = text;
+              bestLength = text.length;
+              bestPatternIndex = i;
+              logger.debug('Found better option text match', {
+                answer: extractedAnswer,
+                text: text.substring(0, 100),
+                length: text.length,
+                patternIndex: i
+              });
+            }
+          }
+        }
+      } catch (error) {
+        logger.debug('Error matching pattern', { patternIndex: i, error: error.message });
+      }
+    }
+    
+    optionText = bestMatch;
+    
+    logger.debug('Option text extraction result', {
+      answer: extractedAnswer,
+      found: !!optionText,
+      optionTextLength: optionText ? optionText.length : 0,
+      optionTextPreview: optionText ? optionText.substring(0, 200) : null,
+      bestPatternIndex
+    });
+
+    // If we found option text, format the response
+    if (optionText && optionText.length > 0) {
+      logger.info('MCQ answer formatted with option text', {
+        answer: extractedAnswer,
+        optionText: optionText.substring(0, 150),
+        optionTextLength: optionText.length
+      });
+
+      // Format response to show the actual answer text prominently
+      // If option text contains code-like syntax, format it as code
+      const hasCodeSyntax = /[=+\-*\/<>()\[\]{};]/.test(optionText);
+      
+      let formattedResponse;
+      if (hasCodeSyntax) {
+        // Format as code block for better readability
+        formattedResponse = `## Answer: ${extractedAnswer}\n\n\`\`\`\n${optionText}\n\`\`\`\n\n`;
+      } else {
+        formattedResponse = `## Answer: ${extractedAnswer}\n\n**${optionText}**\n\n`;
+      }
+      
+      // Only add explanation if response has more than just the answer
+      const cleanResponse = response.replace(/```[\s\S]*?```/g, '').replace(/`([^`]+)`/g, '$1').trim();
+      const cleanResponseNoAnswer = cleanResponse.replace(/answer\s*:\s*[a-eA-E]/gi, '').trim();
+      const hasExplanation = cleanResponseNoAnswer.length > 15 || 
+                            cleanResponseNoAnswer.toLowerCase().includes('because') || 
+                            cleanResponseNoAnswer.toLowerCase().includes('reason') ||
+                            cleanResponseNoAnswer.toLowerCase().includes('explanation');
+      
+      if (hasExplanation && !cleanResponseNoAnswer.toLowerCase().includes(optionText.toLowerCase().substring(0, 20))) {
+        formattedResponse += `---\n\n*Explanation:*\n${cleanResponseNoAnswer}`;
+      }
+      
+      return formattedResponse;
+    } else {
+      // Couldn't find option text, but we have the answer letter
+      logger.warn('Could not extract MCQ option text, showing letter only', {
+        answer: extractedAnswer,
+        originalTextPreview: originalText.substring(0, 500)
+      });
+      
+      // Last resort: Try to find any text after the option letter with more flexible patterns
+      // These patterns are more aggressive and handle edge cases
+      const lastResortPatterns = [
+        // Pattern 1: "D) text" - match until next option or end of line
+        new RegExp(`([${extractedAnswer}${extractedAnswer.toLowerCase()}])[\\).]\\s*([^\\n]{1,200}?)(?=\\s*(?:[A-E][\\).]|$|\\n))`, 'gi'),
+        // Pattern 2: "D) text" - match across lines if needed
+        new RegExp(`([${extractedAnswer}${extractedAnswer.toLowerCase()}])[\\).]\\s*([\\s\\S]{1,300}?)(?=\\s*(?:[A-E][\\).]|$))`, 'i'),
+        // Pattern 3: "D text" (without paren) - match until next option
+        new RegExp(`\\b([${extractedAnswer}${extractedAnswer.toLowerCase()}])\\s+([^\\n]{1,200}?)(?=\\s*(?:[A-E][\\).]|$|\\n))`, 'gi'),
+        // Pattern 4: Very permissive - match anything after D) or D.
+        new RegExp(`([${extractedAnswer}${extractedAnswer.toLowerCase()}])[\\).]?\\s+([^]*?)(?=\\s*(?:[A-E][\\).]|\\s+[A-E]\\s|$))`, 'i'),
+        // Pattern 5: Match on separate line - common in quiz formats
+        new RegExp(`(?:^|\\n)\\s*([${extractedAnswer}${extractedAnswer.toLowerCase()}])[\\).]\\s+([^\\n]{1,200})`, 'gim')
+      ];
+      
+      logger.debug('Trying last resort patterns for option text', {
+        answer: extractedAnswer,
+        patternCount: lastResortPatterns.length
+      });
+      
+      for (let i = 0; i < lastResortPatterns.length; i++) {
+        const pattern = lastResortPatterns[i];
+        try {
+          const matches = originalText.matchAll(pattern);
+          for (const match of matches) {
+            if (match && match[2]) {
+              let extracted = match[2].trim();
+              
+              // Skip if too short (but allow short options like "1", "3")
+              if (extracted.length < 1) continue;
+              
+              // Clean up but preserve the text
+              extracted = extracted
+                .replace(/^\s*[•\-\*]\s*/, '') // Remove leading bullets
+                .replace(/\s+/g, ' ') // Normalize whitespace
+                .replace(/\n+/g, ' ') // Replace newlines with spaces
+                .trim();
+              
+              // Stop at next option indicators
+              const stopAtNextOption = extracted.match(/^([^]*?)(?=\s+[A-E][\)\.]|$)/);
+              if (stopAtNextOption && stopAtNextOption[1]) {
+                extracted = stopAtNextOption[1].trim();
+              }
+              
+              // Remove trailing punctuation (but keep meaningful text)
+              extracted = extracted.replace(/[\.;,\s]+$/, '').trim();
+              
+              // Accept if we have meaningful text (even if short)
+              if (extracted.length > 0) {
+                logger.info('MCQ answer extracted with last resort pattern', {
+                  answer: extractedAnswer,
+                  extractedText: extracted,
+                  patternIndex: i,
+                  textLength: extracted.length
+                });
+                
+                // Format based on content type
+                const hasCodeSyntax = /[=+\-*\/<>()\[\]{};]/.test(extracted);
+                if (hasCodeSyntax) {
+                  return `## Answer: ${extractedAnswer}\n\n\`\`\`\n${extracted}\n\`\`\`\n\n`;
+                } else {
+                  return `## Answer: ${extractedAnswer}\n\n**${extracted}**\n\n`;
+                }
+              }
+            }
+          }
+        } catch (error) {
+          logger.debug('Error in last resort pattern', { patternIndex: i, error: error.message });
+        }
+      }
+      
+      // If still nothing, return with just the letter but log a warning
+      logger.warn('Could not extract MCQ option text even with last resort patterns', {
+        answer: extractedAnswer,
+        originalTextPreview: originalText.substring(0, 1000)
+      });
+      
+      return `## Answer: ${extractedAnswer}\n\n${response}`;
+    }
+  }
+
   generateFallbackResponse(text, activeSkill) {
     logger.info('Generating fallback response', { activeSkill });
 
@@ -1064,7 +1669,11 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       fallbackRate: this.requestCount > 0 ? (this.errorCount / this.requestCount) * 100 : 0,
       config: config.get('llm.gemini'),
       fallbackEnabled: config.get('llm.gemini.fallbackEnabled'),
-      enableFallbackMethod: config.get('llm.gemini.enableFallbackMethod')
+      enableFallbackMethod: config.get('llm.gemini.enableFallbackMethod'),
+      totalApiKeys: this.models.length,
+      currentKeyIndex: this.currentKeyIndex,
+      exhaustedKeys: this.exhaustedKeys.size,
+      availableKeys: this.models.length - this.exhaustedKeys.size
     };
   }
   
@@ -1077,6 +1686,7 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
       networkConnectivity: networkCheck,
       apiKeyConfigured: !!config.getApiKey('GEMINI'),
       apiKeyValid: config.getApiKey('GEMINI') !== 'your-api-key-here' && !!config.getApiKey('GEMINI'),
+      totalApiKeysConfigured: config.getApiKeys('GEMINI').length,
       model: config.get('llm.gemini.model'),
       commonFallbackReasons: [
         'Network connectivity issues (check internet connection)',
@@ -1092,64 +1702,138 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async executeAlternativeRequest(geminiRequest, maxRetries = 3) {
+  async executeAlternativeRequest(geminiRequest, maxRetries = 3, keyIndex = null) {
     const https = require('https');
-    const apiKey = config.getApiKey('GEMINI');
+    const apiKeys = config.getApiKeys('GEMINI');
     const model = config.get('llm.gemini.model');
     const apiVersion = config.get('llm.gemini.apiVersion') || 'v1beta';
     const baseTimeout = config.get('llm.gemini.timeout');
     
+    // Determine starting key index
+    let currentKeyIdx;
+    if (keyIndex !== null && keyIndex < apiKeys.length) {
+      currentKeyIdx = keyIndex;
+    } else {
+      currentKeyIdx = this.currentKeyIndex < apiKeys.length ? this.currentKeyIndex : 0;
+    }
+    
+    if (!apiKeys || apiKeys.length === 0) {
+      throw new Error('No Gemini API keys available for alternative request');
+    }
+    
     logger.info('Using alternative HTTPS request method', {
       model,
       apiVersion,
-      maxRetries
+      maxRetries,
+      keyIndex: currentKeyIdx,
+      totalKeys: apiKeys.length
     });
     
-    const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${apiKey}`;
-    
-    let postData;
-    try {
-      const httpPayload = this.transformRequestForHttpTransport(geminiRequest);
-      postData = JSON.stringify(httpPayload);
-    } catch (transformError) {
-      logger.error('Failed to transform Gemini request for HTTPS transport', {
-        error: transformError.message
-      });
-      throw transformError;
+    // Try each available key (starting from currentKeyIdx)
+    const keysToTry = [];
+    for (let i = 0; i < apiKeys.length; i++) {
+      const idx = (currentKeyIdx + i) % apiKeys.length;
+      if (!this.exhaustedKeys.has(idx)) {
+        keysToTry.push({ index: idx, key: apiKeys[idx] });
+      }
     }
     
-    // Retry logic for 503 errors and timeouts
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    if (keysToTry.length === 0) {
+      logger.warn('All API keys exhausted, resetting and trying again');
+      this.exhaustedKeys.clear();
+      keysToTry.push({ index: currentKeyIdx, key: apiKeys[currentKeyIdx] });
+    }
+    
+    let lastError = null;
+    
+    // Try each key
+    for (const keyInfo of keysToTry) {
+      const url = `https://generativelanguage.googleapis.com/${apiVersion}/models/${model}:generateContent?key=${keyInfo.key}`;
+      
+      let postData;
       try {
-        const result = await this._makeAlternativeRequest(url, postData, baseTimeout, attempt, maxRetries);
-        return result;
-      } catch (error) {
-        const errorMessage = error.message || String(error);
-        const isRetryable = this._isAlternativeRequestRetryable(errorMessage, error.statusCode);
-        
-        if (!isRetryable || attempt === maxRetries) {
-          logger.error('Alternative request failed after all retries', {
+        const httpPayload = this.transformRequestForHttpTransport(geminiRequest);
+        postData = JSON.stringify(httpPayload);
+      } catch (transformError) {
+        logger.error('Failed to transform Gemini request for HTTPS transport', {
+          error: transformError.message
+        });
+        throw transformError;
+      }
+      
+      // Retry logic for this key (only retry on network/timeout errors, not quota)
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          const result = await this._makeAlternativeRequest(url, postData, baseTimeout, attempt, maxRetries, keyInfo.index);
+          
+          // Success! Update current key index
+          this.currentKeyIndex = keyInfo.index;
+          logger.info('Alternative request succeeded', {
+            keyIndex: keyInfo.index,
+            attempt,
+            responseLength: result.length
+          });
+          return result;
+        } catch (error) {
+          lastError = error;
+          const errorMessage = error.message || String(error);
+          const statusCode = error.statusCode;
+          
+          // Check if this is a quota/rate limit error (429, 503, or quota message)
+          const isQuotaError = statusCode === 429 || 
+                              statusCode === 503 || 
+                              errorMessage.toLowerCase().includes('quota') ||
+                              errorMessage.toLowerCase().includes('rate limit') ||
+                              errorMessage.toLowerCase().includes('overloaded');
+          
+          // If quota error, mark key as exhausted and try next key immediately
+          if (isQuotaError) {
+            this.markKeyExhausted(keyInfo.index);
+            logger.warn('API key quota exceeded, trying next key', {
+              exhaustedKeyIndex: keyInfo.index,
+              remainingKeys: apiKeys.length - this.exhaustedKeys.size
+            });
+            break; // Break out of retry loop, try next key
+          }
+          
+          // For other errors, check if retryable
+          const isRetryable = this._isAlternativeRequestRetryable(errorMessage, statusCode);
+          
+          if (!isRetryable || attempt === maxRetries) {
+            // If this is the last key or non-retryable error, throw
+            const isLastKey = keysToTry.indexOf(keyInfo) === keysToTry.length - 1;
+            if (isLastKey) {
+              logger.error('Alternative request failed after all retries and keys', {
+                attempt,
+                maxRetries,
+                error: errorMessage,
+                isRetryable,
+                keysTried: keysToTry.length
+              });
+              throw error;
+            }
+            // Otherwise, try next key
+            break;
+          }
+          
+          // Calculate exponential backoff: 2s, 4s, 8s (capped at 10s)
+          const backoffDelay = Math.min(2000 * Math.pow(2, attempt - 1), 10000);
+          logger.warn('Alternative request failed, retrying with backoff', {
             attempt,
             maxRetries,
             error: errorMessage,
-            isRetryable
+            backoffDelay,
+            nextAttempt: attempt + 1,
+            keyIndex: keyInfo.index
           });
-          throw error;
+          
+          await this.delay(backoffDelay);
         }
-        
-        // Calculate exponential backoff: 2s, 4s, 8s (capped at 10s)
-        const backoffDelay = Math.min(2000 * Math.pow(2, attempt - 1), 10000);
-        logger.warn('Alternative request failed, retrying with backoff', {
-          attempt,
-          maxRetries,
-          error: errorMessage,
-          backoffDelay,
-          nextAttempt: attempt + 1
-        });
-        
-        await this.delay(backoffDelay);
       }
     }
+    
+    // All keys failed
+    throw lastError || new Error('All API keys exhausted');
   }
 
   _isAlternativeRequestRetryable(errorMessage, statusCode) {
@@ -1181,7 +1865,7 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
     return false;
   }
 
-  _makeAlternativeRequest(url, postData, timeout, attempt, maxRetries) {
+  _makeAlternativeRequest(url, postData, timeout, attempt, maxRetries, keyIndex = null) {
     const https = require('https');
     
     // Increase timeout for later attempts (complex requests may need more time)
@@ -1235,14 +1919,28 @@ Remember: Be intelligent about filtering - only provide detailed responses when 
               const error = new Error(errorMessage);
               error.statusCode = errorCode;
               
+              // Check if this is a quota/overload error
+              const isQuotaError = res.statusCode === 429 || 
+                                  res.statusCode === 503 ||
+                                  errorMessage.toLowerCase().includes('quota') ||
+                                  errorMessage.toLowerCase().includes('overloaded') ||
+                                  errorMessage.toLowerCase().includes('rate limit');
+              
               logger.warn('Alternative request failed with non-200 status', {
                 statusCode: res.statusCode,
                 errorCode,
                 errorMessage,
                 attempt,
                 maxRetries,
+                isQuotaError,
+                keyIndex,
                 responsePreview: data.substring(0, 500)
               });
+              
+              // Add quota flag to error for handling upstream
+              if (isQuotaError) {
+                error.isQuotaError = true;
+              }
               
               reject(error);
               return;

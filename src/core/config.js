@@ -85,7 +85,36 @@ class ConfigManager {
 
   getApiKey(service) {
     const envKey = `${service.toUpperCase()}_API_KEY`;
-    return process.env[envKey];
+    const apiKeyValue = process.env[envKey];
+    
+    if (!apiKeyValue) {
+      return null;
+    }
+    
+    // If comma-separated, return the first one for backward compatibility
+    const keys = this.getApiKeys(service);
+    return keys.length > 0 ? keys[0] : null;
+  }
+
+  getApiKeys(service) {
+    const envKey = `${service.toUpperCase()}_API_KEY`;
+    const apiKeyValue = process.env[envKey];
+    
+    if (!apiKeyValue) {
+      return [];
+    }
+    
+    // Support multiple formats:
+    // 1. Comma-separated: GEMINI_API_KEY=key1,key2,key3
+    // 2. Newline-separated: GEMINI_API_KEY=key1\nkey2\nkey3
+    // 3. Single key: GEMINI_API_KEY=key1
+    
+    const keys = apiKeyValue
+      .split(/[,\n]/) // Split by comma or newline
+      .map(key => key.trim()) // Trim whitespace
+      .filter(key => key.length > 0 && key !== 'your-api-key-here'); // Remove empty and placeholder values
+    
+    return keys;
   }
 
   isFeatureEnabled(feature) {

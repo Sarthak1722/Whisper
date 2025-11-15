@@ -733,6 +733,11 @@
                 responseElement.classList.remove('hidden');
             }
 
+            // Store current skill for later use
+            if (data.skill || data.metadata?.skill) {
+                currentSkill = data.skill || data.metadata.skill;
+            }
+
             // Parse the response - check both content and response properties for compatibility
             const response = data.content || data.response;
             
@@ -749,15 +754,24 @@
             const codeBlocks = extractCodeBlocks(response);
             hasCode = codeBlocks.length > 0;
 
+            // Check if this is a coding problem (dsa, programming, etc.)
+            // For coding problems, use full layout to show code in entire window
+            const codingSkills = ['dsa', 'programming', 'devops', 'data-science', 'system-design'];
+            const skill = data.skill || data.metadata?.skill || currentSkill;
+            const isCodingProblem = codingSkills.includes(skill);
+            
+            // Use full layout for coding problems OR if no code blocks
+            const shouldUseFullLayout = !hasCode || isCodingProblem;
+
             // Calculate content metrics for dynamic sizing
             const contentMetrics = calculateContentMetrics(response, codeBlocks);
 
-            if (hasCode) {
-                // Split layout: text on left, code on right
-                displaySplitLayout(response, codeBlocks);
-            } else {
-                // Full layout: all content in one panel
+            if (shouldUseFullLayout) {
+                // Full layout: all content in one panel (for coding problems)
                 displayFullLayout(response);
+            } else {
+                // Split layout: text on left, code on right (for non-coding content with code)
+                displaySplitLayout(response, codeBlocks);
             }
             
             // Request dynamic window sizing based on content
